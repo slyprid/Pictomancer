@@ -1,44 +1,97 @@
-﻿<mah:MetroWindow x:Class="Pictomancer.MainWindow"
+﻿<RibbonWindow x:Class="Pictomancer.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Pictomancer"
         xmlns:graphics="clr-namespace:Pictomancer.Graphics"
-        xmlns:xcad="http://schemas.xceed.com/wpf/xaml/avalondock"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
-        xmlns:system="clr-namespace:System;assembly=mscorlib"
-        xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
         mc:Ignorable="d"
-        Title="Pictomancer" Height="450" Width="800">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-
-        <StackPanel Grid.Row="0" Orientation="Horizontal">
-
-        </StackPanel>
-
-        <Grid Grid.Row="1">
+        DataContext="{DynamicResource MainViewModel}"
+        Title="Pictomancer" Width="1280" Height="720" WindowStartupLocation="CenterScreen">
+    <DockPanel>
+        <Ribbon DockPanel.Dock="Top">
+            <Ribbon.ApplicationMenu>
+                <RibbonApplicationMenu SmallImageSource="Images/Unknown.png">
+                    <RibbonApplicationMenu.AuxiliaryPaneContent>
+                        <RibbonGallery ScrollViewer.VerticalScrollBarVisibility="Auto">
+                            <RibbonGalleryCategory MaxColumnCount="1">
+                                <RibbonGalleryItem x:Name="GalleryItem1" Content="Application menu content" MouseOverBackground="Transparent" MouseOverBorderBrush="Transparent" CheckedBackground="Transparent" CheckedBorderBrush="Transparent"/>
+                                <RibbonGalleryItem>
+                                    <Hyperlink x:Name="hl1">
+                                        <Run Text="http://www.bing.com"/>
+                                    </Hyperlink>
+                                </RibbonGalleryItem>
+                            </RibbonGalleryCategory>
+                        </RibbonGallery>
+                    </RibbonApplicationMenu.AuxiliaryPaneContent>
+                    <RibbonApplicationMenuItem x:Name="menuItem1" Header="Add" ImageSource="Images/Unknown.png"/>
+                    <RibbonApplicationMenuItem x:Name="menuItem2" Header="Settings" ImageSource="Images/Unknown.png"/>
+                </RibbonApplicationMenu>
+            </Ribbon.ApplicationMenu>
+            <RibbonTab Header="Home">
+                <RibbonGroup Header="Project">
+                    <RibbonButton Label="New" LargeImageSource="Images/NewProject.png"/>
+                    <RibbonButton Label="Open" LargeImageSource="Images/OpenProject.png"/>
+                    <RibbonButton Label="Save" LargeImageSource="Images/SaveProject.png"/>
+                </RibbonGroup>
+                <RibbonGroup Header="Map">
+                    <RibbonButton Label="New" LargeImageSource="Images/NewMap.png"/>
+                    <RibbonButton Label="Delete" LargeImageSource="Images/DeleteMap.png"/>
+                </RibbonGroup>
+            </RibbonTab>
+            <RibbonTab Header="Tab2">
+                <RibbonGroup x:Name="rbnGr3" Header="Other Group">
+                    <RibbonButton x:Name="btnRibbon5" Label="Play" LargeImageSource="Images/Unknown.png"/>
+                    <RibbonButton x:Name="btnRibbon6" Label="List" LargeImageSource="Images/Unknown.png"/>
+                </RibbonGroup>
+                <RibbonGroup x:Name="rbnGr4" Header="What a group">
+                    <RibbonButton x:Name="btnRibbon7" Label="Sleep" LargeImageSource="Images/Unknown.png"/>
+                    <RibbonButton x:Name="btnRibbon8" Label="Add" LargeImageSource="Images/Unknown.png"/>
+                </RibbonGroup>
+            </RibbonTab>
+        </Ribbon>
+        <Grid>
             <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="256"/>
-                <ColumnDefinition/>
             </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="256"/>
+            </Grid.RowDefinitions>
+            <TabControl Grid.Column="0">
+                <TabItem Header="Map 1">
+                    <graphics:GameCanvas/>
+                </TabItem>
+                <TabItem Header="Map 2">
 
-            <StackPanel Grid.Column="0" Height="Auto">
-                <ListView MinHeight="320">
-
-                </ListView>
-                <xctk:PropertyGrid Height="Auto">
+                </TabItem>
+            </TabControl>
+            <Grid Grid.Column="1" Grid.Row="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="256"/>
+                </Grid.RowDefinitions>
+                <TreeView Grid.Row="0">
+                    <TreeViewItem Header="Map 1"></TreeViewItem>
+                    <TreeViewItem Header="Map 2"></TreeViewItem>
+                    <TreeViewItem Header="Map 3"></TreeViewItem>
+                    <TreeViewItem Header="Map 4"></TreeViewItem>
+                    <TreeViewItem Header="Map 5"></TreeViewItem>
+                </TreeView>
+                <xctk:PropertyGrid Grid.Row="1">
 
                 </xctk:PropertyGrid>
-            </StackPanel>
-            
+            </Grid>
+            <Grid Grid.ColumnSpan="2" Grid.Column="0" Grid.Row="1">
+                <TabControl>
+                    <TabItem Header="Tiles">
+                    </TabItem>
+                    <TabItem Header="Console">
 
-            <graphics:GameCanvas Width="Auto" Height="Auto" Grid.Column="1"/>
+                    </TabItem>
+                </TabControl>
+            </Grid>
         </Grid>
-        
-    </Grid>
-</mah:MetroWindow>
+    </DockPanel>
+</RibbonWindow>
