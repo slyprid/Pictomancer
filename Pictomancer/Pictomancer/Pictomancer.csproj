@@ -116,8 +116,21 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Mvvm\Annotations.cs" />
+    <Compile Include="Mvvm\Command.cs" />
+    <Compile Include="Mvvm\IView.cs" />
+    <Compile Include="Mvvm\IViewModel.cs" />
+    <Compile Include="Mvvm\NotificationObject.cs" />
+    <Compile Include="Mvvm\RibbonView.cs" />
+    <Compile Include="Mvvm\View.cs" />
+    <Compile Include="Mvvm\ViewModel.cs" />
+    <Compile Include="Mvvm\WindowView.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
-    <Page Include="MainWindow.xaml">
+    <Compile Include="ViewModels\NewProjectViewModel.cs" />
+    <Compile Include="Views\NewProjectView.xaml.cs">
+      <DependentUpon>NewProjectView.xaml</DependentUpon>
+    </Compile>
+    <Page Include="Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -126,10 +139,14 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Graphics\GameCanvas.cs" />
-    <Compile Include="MainWindow.xaml.cs">
+    <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\NewProjectView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -173,6 +190,13 @@
   <ItemGroup>
     <Resource Include="Images\Unknown.png" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Relm\Relm\Relm\Relm.csproj">
+      <Project>{dd6311d5-61f3-4f83-aaa4-0ffd0c40662f}</Project>
+      <Name>Relm</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\MonoGame.Framework.WindowsDX.3.8.0.1641\build\MonoGame.Framework.WindowsDX.targets" Condition="Exists('..\packages\MonoGame.Framework.WindowsDX.3.8.0.1641\build\MonoGame.Framework.WindowsDX.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

@@ -1,52 +1,53 @@
-﻿<RibbonWindow x:Class="Pictomancer.MainWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:graphics="clr-namespace:Pictomancer.Graphics"
-        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
-        mc:Ignorable="d"
-        DataContext="{DynamicResource MainViewModel}"
-        Title="Pictomancer" Width="1280" Height="720" WindowStartupLocation="CenterScreen">
+﻿<mvvm:RibbonView x:TypeArguments="viewModels:MainViewModel" x:Class="Pictomancer.Views.MainWindow"
+                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                 xmlns:graphics="clr-namespace:Pictomancer.Graphics"
+                 xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+                 xmlns:mvvm="clr-namespace:Pictomancer.Mvvm"
+                 xmlns:viewModels="clr-namespace:Pictomancer.ViewModels"
+                 mc:Ignorable="d"
+                 Title="Pictomancer" Width="1280" Height="720" WindowStartupLocation="CenterScreen">
     <DockPanel>
         <Ribbon DockPanel.Dock="Top">
             <Ribbon.ApplicationMenu>
-                <RibbonApplicationMenu SmallImageSource="Images/Unknown.png">
+                <RibbonApplicationMenu SmallImageSource="../Images/Unknown.png">
                     <RibbonApplicationMenu.AuxiliaryPaneContent>
                         <RibbonGallery ScrollViewer.VerticalScrollBarVisibility="Auto">
                             <RibbonGalleryCategory MaxColumnCount="1">
-                                <RibbonGalleryItem x:Name="GalleryItem1" Content="Application menu content" MouseOverBackground="Transparent" MouseOverBorderBrush="Transparent" CheckedBackground="Transparent" CheckedBorderBrush="Transparent"/>
+                                <RibbonGalleryItem Content="Application menu content" MouseOverBackground="Transparent" MouseOverBorderBrush="Transparent" CheckedBackground="Transparent" CheckedBorderBrush="Transparent"/>
                                 <RibbonGalleryItem>
-                                    <Hyperlink x:Name="hl1">
+                                    <Hyperlink>
                                         <Run Text="http://www.bing.com"/>
                                     </Hyperlink>
                                 </RibbonGalleryItem>
                             </RibbonGalleryCategory>
                         </RibbonGallery>
                     </RibbonApplicationMenu.AuxiliaryPaneContent>
-                    <RibbonApplicationMenuItem x:Name="menuItem1" Header="Add" ImageSource="Images/Unknown.png"/>
-                    <RibbonApplicationMenuItem x:Name="menuItem2" Header="Settings" ImageSource="Images/Unknown.png"/>
+                    <RibbonApplicationMenuItem Header="Add" ImageSource="../Images/Unknown.png"/>
+                    <RibbonApplicationMenuItem Header="Settings" ImageSource="../Images/Unknown.png"/>
                 </RibbonApplicationMenu>
             </Ribbon.ApplicationMenu>
             <RibbonTab Header="Home">
                 <RibbonGroup Header="Project">
-                    <RibbonButton Label="New" LargeImageSource="Images/NewProject.png"/>
-                    <RibbonButton Label="Open" LargeImageSource="Images/OpenProject.png"/>
-                    <RibbonButton Label="Save" LargeImageSource="Images/SaveProject.png"/>
+                    <RibbonButton Label="New" LargeImageSource="../Images/NewProject.png" Command="{Binding NewProjectCommand}"/>
+                    <RibbonButton Label="Open" LargeImageSource="../Images/OpenProject.png"/>
+                    <RibbonButton Label="Save" LargeImageSource="../Images/SaveProject.png"/>
                 </RibbonGroup>
                 <RibbonGroup Header="Map">
-                    <RibbonButton Label="New" LargeImageSource="Images/NewMap.png"/>
-                    <RibbonButton Label="Delete" LargeImageSource="Images/DeleteMap.png"/>
+                    <RibbonButton Label="New" LargeImageSource="../Images/NewMap.png"/>
+                    <RibbonButton Label="Delete" LargeImageSource="../Images/DeleteMap.png"/>
                 </RibbonGroup>
             </RibbonTab>
             <RibbonTab Header="Tab2">
                 <RibbonGroup x:Name="rbnGr3" Header="Other Group">
-                    <RibbonButton x:Name="btnRibbon5" Label="Play" LargeImageSource="Images/Unknown.png"/>
-                    <RibbonButton x:Name="btnRibbon6" Label="List" LargeImageSource="Images/Unknown.png"/>
+                    <RibbonButton x:Name="btnRibbon5" Label="Play" LargeImageSource="../Images/Unknown.png"/>
+                    <RibbonButton x:Name="btnRibbon6" Label="List" LargeImageSource="../Images/Unknown.png"/>
                 </RibbonGroup>
                 <RibbonGroup x:Name="rbnGr4" Header="What a group">
-                    <RibbonButton x:Name="btnRibbon7" Label="Sleep" LargeImageSource="Images/Unknown.png"/>
-                    <RibbonButton x:Name="btnRibbon8" Label="Add" LargeImageSource="Images/Unknown.png"/>
+                    <RibbonButton x:Name="btnRibbon7" Label="Sleep" LargeImageSource="../Images/Unknown.png"/>
+                    <RibbonButton x:Name="btnRibbon8" Label="Add" LargeImageSource="../Images/Unknown.png"/>
                 </RibbonGroup>
             </RibbonTab>
         </Ribbon>
@@ -94,4 +95,4 @@
             </Grid>
         </Grid>
     </DockPanel>
-</RibbonWindow>
+</mvvm:RibbonView>
