@@ -3,15 +3,27 @@
                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-                 xmlns:graphics="clr-namespace:Pictomancer.Graphics"
                  xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
                  xmlns:mvvm="clr-namespace:Pictomancer.Mvvm"
                  xmlns:viewModels="clr-namespace:Pictomancer.ViewModels"
-                 xmlns:maps="clr-namespace:Relm.Maps;assembly=Relm"
                  xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
                  xmlns:behaviors="clr-namespace:Pictomancer.Behaviors"
+                 xmlns:selectors="clr-namespace:Pictomancer.Selectors"
+                 xmlns:views="clr-namespace:Pictomancer.Views"
+                 xmlns:graphics="clr-namespace:Pictomancer.Graphics"
                  mc:Ignorable="d"
                  Title="Pictomancer" Width="1280" Height="720" WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <DataTemplate x:Key="StartViewModelDataTemplate">
+            <views:StartView/>
+        </DataTemplate>
+        <DataTemplate x:Key="MapViewModelDataTemplate">
+            <graphics:GameCanvas/>
+        </DataTemplate>
+        <selectors:TabItemTemplateSelector x:Key="TabItemTemplateSelector"
+                                           MapViewTemplate="{StaticResource MapViewModelDataTemplate}"
+                                           StartViewTemplate="{StaticResource StartViewModelDataTemplate}"/>
+    </Window.Resources>
     <DockPanel>
         <Ribbon DockPanel.Dock="Top">
             <Ribbon.ApplicationMenu>
@@ -63,13 +75,12 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="256"/>
             </Grid.RowDefinitions>
-            <TabControl Grid.Column="0">
-                <TabItem Header="Map 1">
-                    <graphics:GameCanvas/>
-                </TabItem>
-                <TabItem Header="Map 2">
-
-                </TabItem>
+            <TabControl Grid.Column="0" ItemsSource="{Binding Pages}" SelectedItem="{Binding SelectedPage}" ContentTemplateSelector="{StaticResource TabItemTemplateSelector}">
+                <TabControl.ItemContainerStyle>
+                    <Style TargetType="TabItem">
+                        <Setter Property="Header" Value="{Binding Header}"/>
+                    </Style>
+                </TabControl.ItemContainerStyle>
             </TabControl>
             <Grid Grid.Column="1" Grid.Row="0">
                 <Grid.RowDefinitions>

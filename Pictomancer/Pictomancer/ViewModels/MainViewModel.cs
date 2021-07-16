@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows;
 using Microsoft.Win32;
 using Pictomancer.Mvvm;
@@ -16,11 +18,24 @@ namespace Pictomancer.ViewModels
         #region Dependency Properties
 
         public static readonly DependencyProperty ProjectProperty = DependencyProperty.Register("Project", typeof(ProjectViewModel), typeof(MainViewModel), new PropertyMetadata(default(ProjectViewModel)));
-
         public ProjectViewModel Project
         {
             get => (ProjectViewModel) GetValue(ProjectProperty);
             set => SetValue(ProjectProperty, value);
+        }
+
+        public static readonly DependencyProperty PagesProperty = DependencyProperty.Register("Pages", typeof(ObservableCollection<PageViewModel>), typeof(PageViewModel), new PropertyMetadata(default(ObservableCollection<PageViewModel>)));
+        public ObservableCollection<PageViewModel> Pages
+        {
+            get => (ObservableCollection<PageViewModel>) GetValue(PagesProperty);
+            set => SetValue(PagesProperty, value);
+        }
+
+        public static readonly DependencyProperty SelectedPageProperty = DependencyProperty.Register("SelectedPage", typeof(PageViewModel), typeof(MainViewModel), new PropertyMetadata(default(PageViewModel)));
+        public PageViewModel SelectedPage
+        {
+            get => (PageViewModel) GetValue(SelectedPageProperty);
+            set => SetValue(SelectedPageProperty, value);
         }
 
         #endregion
@@ -40,6 +55,10 @@ namespace Pictomancer.ViewModels
         public MainViewModel()
         {
             Project = new ProjectViewModel();
+            Pages = new ObservableCollection<PageViewModel>
+            {
+                new StartViewModel()
+            };
             InitializeCommands();
         }
 
@@ -70,7 +89,7 @@ namespace Pictomancer.ViewModels
             {
                 Name = results.ProjectName
             };
-            Project.CreateNewMap();
+            NewMap();
             SetIsDirty(true);
         }
 
@@ -120,7 +139,10 @@ namespace Pictomancer.ViewModels
                 return;
             }
 
-            Project.CreateNewMap();
+            var map = Project.CreateNewMap();
+            var vm = new MapViewModel(map);
+            Pages.Add(vm);
+            SelectedPage = vm;
         }
 
         public void DeleteMap()
@@ -137,7 +159,13 @@ namespace Pictomancer.ViewModels
                 return;
             }
 
-            Project.DeleteMap((Map)Project.SelectedItem);
+            var map = (Map) Project.SelectedItem;
+            var page = Pages.OfType<MapViewModel>().SingleOrDefault(x => x.Id == map.Id);
+            Project.DeleteMap(map);
+            if (page != null)
+            {
+                Pages.Remove(page);
+            }
         }
 
         #endregion

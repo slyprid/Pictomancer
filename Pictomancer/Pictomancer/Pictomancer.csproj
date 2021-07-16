@@ -126,11 +126,18 @@
     <Compile Include="Mvvm\View.cs" />
     <Compile Include="Mvvm\ViewModel.cs" />
     <Compile Include="Mvvm\WindowView.cs" />
+    <Compile Include="Selectors\TabItemTemplateSelector.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\MapViewModel.cs" />
     <Compile Include="ViewModels\NewProjectViewModel.cs" />
+    <Compile Include="ViewModels\PageViewModel.cs" />
     <Compile Include="ViewModels\ProjectViewModel.cs" />
+    <Compile Include="ViewModels\StartViewModel.cs" />
     <Compile Include="Views\NewProjectView.xaml.cs">
       <DependentUpon>NewProjectView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\StartView.xaml.cs">
+      <DependentUpon>StartView.xaml</DependentUpon>
     </Compile>
     <Page Include="Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -146,6 +153,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Views\NewProjectView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\StartView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
