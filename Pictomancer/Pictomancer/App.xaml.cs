@@ -13,5 +13,11 @@ namespace Pictomancer
     /// </summary>
     public partial class App : Application
     {
+        public static Random Rnd { get; set; }
+
+        static App()
+        {
+            Rnd = new Random();
+        }
     }
 }
