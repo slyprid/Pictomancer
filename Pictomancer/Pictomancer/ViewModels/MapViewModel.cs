@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Documents;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
@@ -8,6 +9,7 @@ using Microsoft.Xna.Framework.Input;
 using MonoGame.Extended;
 using Pictomancer.Models;
 using Relm.Maps;
+using Relm.Tiles;
 
 namespace Pictomancer.ViewModels
 {
@@ -30,7 +32,8 @@ namespace Pictomancer.ViewModels
             Title = map.Name;
             Header = map.Name;
 
-            Color = new Color(new Vector3((float)App.Rnd.NextDouble(), (float)App.Rnd.NextDouble(), (float)App.Rnd.NextDouble()));
+            //Color = new Color(new Vector3((float)App.Rnd.NextDouble(), (float)App.Rnd.NextDouble(), (float)App.Rnd.NextDouble()));
+            Color = new Color(30, 30, 30, 255);
         }
 
         public override void LoadContent(ContentManager content)
@@ -40,6 +43,17 @@ namespace Pictomancer.ViewModels
             ContentLoaded = true;
 
             TileTexture = content.Load<Texture2D>("Grass");
+
+            foreach (var layer in Map.Layers.OfType<TileLayer>())
+            {
+                for (var y = 0; y < layer.Height; y++)
+                {
+                    for (var x = 0; x < layer.Width; x++)
+                    {
+                        layer[x, y].Texture = TileTexture;
+                    }
+                }
+            }
         }
 
         public override void Update(GameTime gameTime, InputModel input)
@@ -55,13 +69,10 @@ namespace Pictomancer.ViewModels
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             if (spriteBatch == null) return;
-
+            
             spriteBatch.Begin();
 
-            foreach (var pos in TilePoints)
-            {
-                spriteBatch.Draw(TileTexture, pos, Color.White);
-            }
+            Map.Draw(gameTime, spriteBatch);
 
             for (var y = 0; y < Map.Size.Y; y++)
             {
