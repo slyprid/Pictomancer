@@ -2,6 +2,7 @@
 using System.Windows;
 using Pictomancer.Mvvm;
 using Relm.Maps;
+using Relm.Tiles;
 
 namespace Pictomancer.ViewModels
 {
@@ -46,6 +47,7 @@ namespace Pictomancer.ViewModels
             {
                 Name = name
             };
+            map.AddLayer<TileLayer>().Name = "Tile Layer 1";
             Maps.Add(map);
             return map;
         }

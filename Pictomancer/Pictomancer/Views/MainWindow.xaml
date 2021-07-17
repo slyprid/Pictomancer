@@ -93,12 +93,22 @@
                     </b:Interaction.Behaviors>
                     <TreeViewItem Header="{Binding Project.Title}" IsExpanded="True">
                         <TreeViewItem Header="Maps" ItemsSource="{Binding Project.Maps, Mode=TwoWay}" IsExpanded="True">
+                            <TreeViewItem.ItemContainerStyle>
+                                <Style>
+                                    <Setter Property="TreeViewItem.IsExpanded" Value="True"/>
+                                </Style>
+                            </TreeViewItem.ItemContainerStyle>
                             <TreeViewItem.ItemTemplate>
-                               <DataTemplate>
-                                   <TextBlock Text="{Binding Name}"/>
-                               </DataTemplate>
-                           </TreeViewItem.ItemTemplate>
-                       </TreeViewItem>
+                                <HierarchicalDataTemplate ItemsSource="{Binding Layers, Mode=TwoWay}">
+                                    <TextBlock Text="{Binding Name}"/>
+                                    <HierarchicalDataTemplate.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Name}"/>
+                                        </DataTemplate>
+                                    </HierarchicalDataTemplate.ItemTemplate>
+                                </HierarchicalDataTemplate>
+                            </TreeViewItem.ItemTemplate>
+                        </TreeViewItem>
                         <TreeViewItem Header="Tilesets" IsExpanded="True"></TreeViewItem>
                         <TreeViewItem Header="Scripts" IsExpanded="True"></TreeViewItem>
                     </TreeViewItem>

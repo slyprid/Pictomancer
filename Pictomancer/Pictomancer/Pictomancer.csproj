@@ -128,6 +128,7 @@
     <Compile Include="Behaviors\BindableSelectedItemBehavior.cs" />
     <Compile Include="Components\MapRenderComponent.cs" />
     <Compile Include="Components\TextComponent.cs" />
+    <Compile Include="Models\InputModel.cs" />
     <Compile Include="Mvvm\Annotations.cs" />
     <Compile Include="Mvvm\Command.cs" />
     <Compile Include="Mvvm\IView.cs" />
@@ -191,7 +192,17 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="Content\Block.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Content\Content.mgcb" />
     <None Include="Content\DefaultFont.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Content\Grass.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Content\Tileset.xnb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="mgfxc.deps.json" />

@@ -13,8 +13,8 @@ namespace Pictomancer.Graphics
         : WpfGame
     {
         private IGraphicsDeviceService _graphicsDeviceManager;
-        private WpfKeyboard _keyboard;
-        private WpfMouse _mouse;
+        //private WpfKeyboard _keyboard;
+        //private WpfMouse _mouse;
         private bool _disposed;
         
         private MainViewModel _mainViewModel;
@@ -38,8 +38,8 @@ namespace Pictomancer.Graphics
 
             // wpf and keyboard need reference to the host control in order to receive input
             // this means every WpfGame control will have it's own keyboard & mouse manager which will only react if the mouse is in the control
-            _keyboard = new WpfKeyboard(this);
-            _mouse = new WpfMouse(this);
+            //_keyboard = new WpfKeyboard(this);
+            //_mouse = new WpfMouse(this);
 
             // must be called after the WpfGraphicsDeviceService instance was created
             base.Initialize();
@@ -47,8 +47,7 @@ namespace Pictomancer.Graphics
             // content loading now possible
 
             ControlViewModel = (GameCanvasControlViewModel) ((ContentPresenter) TemplatedParent).Content;
-            ControlViewModel.Canvas = this;
-
+            
             _mapRenderer = new MapRenderComponent(this);
             Components.Add(_mapRenderer);
         }
@@ -64,8 +63,8 @@ namespace Pictomancer.Graphics
         protected override void Update(GameTime gameTime)
         {
             // every update we can now query the keyboard & mouse for our WpfGame
-            var mouseState = _mouse.GetState();
-            var keyboardState = _keyboard.GetState();
+            //var mouseState = _mouse.GetState();
+            //var keyboardState = _keyboard.GetState();
 
             if (_mainViewModel == null)
             {

@@ -1,6 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Pictomancer.Graphics;
+using Pictomancer.Models;
 using Pictomancer.Mvvm;
 
 namespace Pictomancer.ViewModels
@@ -8,9 +10,10 @@ namespace Pictomancer.ViewModels
     public abstract class GameCanvasControlViewModel
         : PageViewModel
     {
-        public GameCanvas Canvas { get; set; }
+        public bool ContentLoaded { get; set; }
 
-        public abstract void Update(GameTime gameTime);
+        public abstract void LoadContent(ContentManager content);
+        public abstract void Update(GameTime gameTime, InputModel input);
         public abstract void Draw(GameTime gameTime, SpriteBatch spriteBatch);
     }
 }
