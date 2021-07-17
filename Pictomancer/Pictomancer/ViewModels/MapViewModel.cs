@@ -13,9 +13,7 @@ namespace Pictomancer.ViewModels
         public Map Map { get; }
 
         public Color Color { get; set; }
-
-        private SpriteBatch _spriteBatch;
-
+        
         public MapViewModel() { }
 
         public MapViewModel(Map map)
@@ -30,23 +28,27 @@ namespace Pictomancer.ViewModels
 
         public override void Update(GameTime gameTime)
         {
-            if (_spriteBatch == null)
-            {
-                _spriteBatch = new SpriteBatch(Canvas.GraphicsDevice);
-            }
+            
         }
 
-        public override void Draw(GameTime gameTime)
+        public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            Canvas.GraphicsDevice.Clear(Color);
+            if (spriteBatch == null) return;
 
-            if (_spriteBatch == null) return;
+            spriteBatch.Begin();
 
-            _spriteBatch.Begin();
+            for (var y = 0; y < Map.Size.Y; y++)
+            {
+                for (var x = 0; x < Map.Size.X; x++)
+                {
+                    var w = Map.TileSize.X;
+                    var h = Map.TileSize.Y;
+                    var loc = new Vector2(x * w, y * h);
+                    spriteBatch.DrawRectangle(new RectangleF(x * w, y * h, w, h), Color.Black, 1f, 0f);
+                }
+            }
 
-            _spriteBatch.DrawCircle(new Vector2(App.Rnd.Next(0, 400), App.Rnd.Next(0, 400)), App.Rnd.Next(0, 256), 16, new Color(new Vector3((float)App.Rnd.NextDouble(), (float)App.Rnd.NextDouble(), (float)App.Rnd.NextDouble())));
-
-            _spriteBatch.End();
+            spriteBatch.End();
         }
     }
 }

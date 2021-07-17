@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Framework.WpfInterop;
 using MonoGame.Framework.WpfInterop.Input;
+using Pictomancer.Components;
 using Pictomancer.ViewModels;
 
 namespace Pictomancer.Graphics
@@ -14,6 +15,11 @@ namespace Pictomancer.Graphics
         private IGraphicsDeviceService _graphicsDeviceManager;
         private WpfKeyboard _keyboard;
         private WpfMouse _mouse;
+        private bool _disposed;
+        
+        private MainViewModel _mainViewModel;
+        private TextComponent _text;
+        private MapRenderComponent _mapRenderer;
 
         public static readonly DependencyProperty ControlViewModelProperty = DependencyProperty.Register("ControlViewModel", typeof(GameCanvasControlViewModel), typeof(GameCanvas), new PropertyMetadata(default(GameCanvasControlViewModel)));
         
@@ -42,38 +48,44 @@ namespace Pictomancer.Graphics
 
             ControlViewModel = (GameCanvasControlViewModel) ((ContentPresenter) TemplatedParent).Content;
             ControlViewModel.Canvas = this;
+
+            _mapRenderer = new MapRenderComponent(this);
+            Components.Add(_mapRenderer);
         }
 
-        protected override void Update(GameTime time)
+        protected override void Dispose(bool disposing)
+        {
+            if (_disposed) return;
+            _disposed = true;
+            base.Dispose(disposing);
+            Services.RemoveService(typeof(IGraphicsDeviceService));
+        }
+
+        protected override void Update(GameTime gameTime)
         {
             // every update we can now query the keyboard & mouse for our WpfGame
             var mouseState = _mouse.GetState();
             var keyboardState = _keyboard.GetState();
 
-            var vm = (MainViewModel)((TabControl) ((ContentPresenter) TemplatedParent).TemplatedParent).DataContext;
-            var page = vm.SelectedPage;
+            if (_mainViewModel == null)
+            {
+                var vm = (MainViewModel) ((TabControl) ((ContentPresenter) TemplatedParent).TemplatedParent)?.DataContext;
+                _mainViewModel = vm;
+            }
+
+            var page = _mainViewModel.SelectedPage;
             if (page.GetType() == typeof(MapViewModel))
             {
-                var mapPage = ((MapViewModel)page);
-                if(mapPage.Canvas == null) mapPage.Canvas = this;
-                mapPage.Update(time);
+                _mapRenderer.ViewModel = ((MapViewModel) page);
             }
-            //ControlViewModel?.Update(time);
+
+            base.Update(gameTime);
         }
 
-        protected override void Draw(GameTime time)
+        protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-
-            var vm = (MainViewModel)((TabControl)((ContentPresenter)TemplatedParent).TemplatedParent).DataContext;
-            var page = vm.SelectedPage;
-            if (page.GetType() == typeof(MapViewModel))
-            {
-                var mapPage = ((MapViewModel)page);
-                if (mapPage.Canvas == null) mapPage.Canvas = this;
-                mapPage.Draw(time);
-            }
-            //ControlViewModel?.Draw(time);
+            base.Draw(gameTime);
         }
     }
 }
