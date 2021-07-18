@@ -1,0 +1,24 @@
+﻿<Window x:Class="Pictomancer.Views.AddTilesetView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Pictomancer.Views"
+        mc:Ignorable="d"
+        Title="Add Tileset" Height="450" Width="800" WindowStartupLocation="CenterOwner">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="64"/>
+            <RowDefinition Height="32"/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,16,0,16">
+            <Label VerticalAlignment="Center">Path:</Label>
+            <TextBox Name="txtPath" Width="368" VerticalContentAlignment="Center" Height="24" Text="{Binding ProjectName}"/>
+            <Button Width="128" Height="24" Margin="8,0,0,0">Browse</Button>
+        </StackPanel>
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Width="128" Margin="0,0,16,0" Command="{Binding CreateProjectCommand}" IsDefault="True">Create</Button>
+            <Button Width="128" Margin="0,0,16,0" Command="{Binding CancelCommand}" IsCancel="True">Cancel</Button>
+        </StackPanel>
+    </Grid>
+</Window>

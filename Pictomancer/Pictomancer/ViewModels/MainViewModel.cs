@@ -13,7 +13,8 @@ namespace Pictomancer.ViewModels
         : ViewModel
     {
         public bool IsDirty { get; set; }
-        
+
+
         #region Dependency Properties
 
         public static readonly DependencyProperty ProjectProperty = DependencyProperty.Register("Project", typeof(ProjectViewModel), typeof(MainViewModel), new PropertyMetadata(default(ProjectViewModel)));
@@ -37,6 +38,20 @@ namespace Pictomancer.ViewModels
             set => SetValue(SelectedPageProperty, value);
         }
 
+        public static readonly DependencyProperty TilesViewModelProperty = DependencyProperty.Register("TilesViewModel", typeof(TilesViewModel), typeof(MainViewModel), new PropertyMetadata(default(TilesViewModel)));
+        public TilesViewModel TilesViewModel
+        {
+            get => (TilesViewModel) GetValue(TilesViewModelProperty);
+            set => SetValue(TilesViewModelProperty, value);
+        }
+
+        public static readonly DependencyProperty ConsoleLogProperty = DependencyProperty.Register("ConsoleLog", typeof(string), typeof(MainViewModel), new PropertyMetadata(default(string)));
+        public string ConsoleLog
+        {
+            get => (string) GetValue(ConsoleLogProperty);
+            set => SetValue(ConsoleLogProperty, value);
+        }
+
         #endregion
 
         #region Command Properties
@@ -46,6 +61,7 @@ namespace Pictomancer.ViewModels
         public Command SaveProjectCommand { get; set; }
         public Command NewMapCommand { get; set; }
         public Command DeleteMapCommand { get; set; }
+        public Command AddTilesetCommand { get; set; }
 
         #endregion
 
@@ -54,11 +70,20 @@ namespace Pictomancer.ViewModels
         public MainViewModel()
         {
             Project = new ProjectViewModel();
+            TilesViewModel = new TilesViewModel
+            {
+                Project = Project
+            };
             Pages = new ObservableCollection<PageViewModel>
             {
                 new StartViewModel()
             };
+
+            App.MainViewModel = this;
+
             InitializeCommands();
+
+            App.Log("Pictomancer loaded");
         }
 
         private void InitializeCommands()
@@ -68,6 +93,7 @@ namespace Pictomancer.ViewModels
             SaveProjectCommand = new Command(SaveProject);
             NewMapCommand = new Command(NewMap);
             DeleteMapCommand = new Command(DeleteMap);
+            AddTilesetCommand = new Command(AddTileset);
         }
 
         #endregion
@@ -88,6 +114,7 @@ namespace Pictomancer.ViewModels
             {
                 Name = results.ProjectName
             };
+            App.Log($"New Project [{Project.Name}] created");
             NewMap();
             SetIsDirty(true);
         }
@@ -103,6 +130,8 @@ namespace Pictomancer.ViewModels
             if (!dialog.ShowDialog((MainWindow)Owner).GetValueOrDefault()) return;
 
             Project.OpenProject(dialog.FileName);
+
+            App.Log($"Opening Project from [{dialog.FileName}]");
         }
 
         public void SaveProject()
@@ -114,6 +143,8 @@ namespace Pictomancer.ViewModels
             }
 
             SetIsDirty(false);
+
+            App.Log($"Project Saved");
         }
 
         public void SaveNewProject()
@@ -128,35 +159,25 @@ namespace Pictomancer.ViewModels
             if (!dialog.ShowDialog((MainWindow)Owner).GetValueOrDefault()) return;
 
             SetIsDirty(false);
+            App.Log($"Project Saved");
         }
 
         public void NewMap()
         {
-            if (Project.Name == "Empty Project")
-            {
-                MessageBox.Show("Unable to create new map because there is no project", "Pictomancer");
-                return;
-            }
+            if (CheckForEmptyProject()) return;
 
             var map = Project.CreateNewMap();
             var vm = new MapViewModel(map);
             Pages.Add(vm);
             SelectedPage = vm;
+
+            App.Log($"New map created [{map.Name}]");
         }
 
         public void DeleteMap()
         {
-            if (Project.Name == "Empty Project")
-            {
-                MessageBox.Show("Unable to delete map because there is no project", "Pictomancer");
-                return;
-            }
-
-            if (Project.SelectedItem.GetType() != typeof(Map))
-            {
-                MessageBox.Show("Unable to delete map because no map selected", "Pictomancer");
-                return;
-            }
+            if (CheckForEmptyProject()) return;
+            if (CheckForNoMapSelected()) return;
 
             var map = (Map) Project.SelectedItem;
             var page = Pages.OfType<MapViewModel>().SingleOrDefault(x => x.Id == map.Id);
@@ -165,6 +186,26 @@ namespace Pictomancer.ViewModels
             {
                 Pages.Remove(page);
             }
+
+            App.Log($"Map [{map.Name}] deleted");
+        }
+
+        public void AddTileset()
+        {
+            if (CheckForEmptyProject()) return;
+
+            var view = new AddTilesetView
+            {
+                Owner = (MainWindow)Owner
+            };
+
+            if (!view.ShowDialog().GetValueOrDefault()) return;
+
+            // Add Tileset from results
+            
+            SetIsDirty(true);
+
+            App.Log($"New Tileset Added");
         }
 
         #endregion
@@ -174,6 +215,22 @@ namespace Pictomancer.ViewModels
             IsDirty = value;
             var flag = IsDirty ? "* " : "";
             ((MainWindow)Owner).Title = $"Pictomancer - {flag}[ {Project.Name} ]";
+        }
+
+        public bool CheckForEmptyProject()
+        {
+            if (Project.Name != "Empty Project") return false;
+            MessageBox.Show("Unable to delete map because there is no project", "Pictomancer");
+            App.Log($"ERROR: Unable to delete map because there is no project");
+            return true;
+        }
+
+        public bool CheckForNoMapSelected()
+        {
+            if (Project.SelectedItem.GetType() == typeof(Map)) return false;
+            MessageBox.Show("Unable to delete map because no map selected", "Pictomancer");
+            App.Log($"ERROR: Unable to delete map because no map selected");
+            return true;
         }
     }
 }

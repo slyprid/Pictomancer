@@ -24,10 +24,11 @@ namespace Pictomancer.ViewModels
         public Guid Id { get; set; }
         public Map Map { get; }
         public Color Color { get; set; }
-        public Texture2D TileTexture;
         public int MouseX { get; set; }
         public int MouseY { get; set; }
 
+        public Tile PrimarySelectedTile { get; set; }
+        public Tile SecondarySelectedTile { get; set; }
         
         public MapViewModel() { }
 
@@ -43,6 +44,9 @@ namespace Pictomancer.ViewModels
             _cursorColor = new ColorEx(Color.Yellow);
             _tweener = new Tweener();
             _tweener.TweenTo(_cursorColor, x => x.Value3, new Vector3(1f, 0, 0f), 0.25f, 0.025f).RepeatForever(0.2f).AutoReverse().Easing(EasingFunctions.Linear);
+
+            PrimarySelectedTile = new Tile();
+            SecondarySelectedTile = new Tile();
         }
 
         public override void LoadContent(ContentManager content)
@@ -51,7 +55,10 @@ namespace Pictomancer.ViewModels
 
             ContentLoaded = true;
 
-            TileTexture = content.Load<Texture2D>("Grass");
+            var grassTexture = content.Load<Texture2D>("Grass");
+            var blockTexture = content.Load<Texture2D>("Block");
+            PrimarySelectedTile.Texture = blockTexture;
+            SecondarySelectedTile.Texture = grassTexture;
 
             foreach (var layer in Map.Layers.OfType<TileLayer>())
             {
@@ -59,7 +66,7 @@ namespace Pictomancer.ViewModels
                 {
                     for (var x = 0; x < layer.Width; x++)
                     {
-                        layer[x, y].Texture = TileTexture;
+                        layer[x, y].Texture = grassTexture;
                     }
                 }
             }
@@ -94,7 +101,6 @@ namespace Pictomancer.ViewModels
                 }
             }
 
-            
             spriteBatch.DrawRectangle(new RectangleF(_mx, _my, Map.TileSize.X, Map.TileSize.Y), _cursorColor.Color);
 
             spriteBatch.End();

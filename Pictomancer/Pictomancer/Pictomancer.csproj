@@ -131,6 +131,7 @@
     <Compile Include="Behaviors\BindableSelectedItemBehavior.cs" />
     <Compile Include="Components\MapRenderComponent.cs" />
     <Compile Include="Components\TextComponent.cs" />
+    <Compile Include="Graphics\TileCanvas.cs" />
     <Compile Include="Models\InputModel.cs" />
     <Compile Include="Mvvm\Annotations.cs" />
     <Compile Include="Mvvm\Command.cs" />
@@ -149,12 +150,20 @@
     <Compile Include="ViewModels\PageViewModel.cs" />
     <Compile Include="ViewModels\ProjectViewModel.cs" />
     <Compile Include="ViewModels\StartViewModel.cs" />
+    <Compile Include="ViewModels\TilesViewModel.cs" />
+    <Compile Include="Views\AddTilesetView.xaml.cs">
+      <DependentUpon>AddTilesetView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\NewProjectView.xaml.cs">
       <DependentUpon>NewProjectView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\StartView.xaml.cs">
       <DependentUpon>StartView.xaml</DependentUpon>
     </Compile>
+    <Page Include="Views\AddTilesetView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -246,6 +255,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="CppNet.dll" />
+    <Resource Include="Images\AddTileset.png" />
     <Content Include="libmojoshader_64.dll" />
     <Content Include="mgfxc.dll" />
     <Content Include="mgfxc.exe" />

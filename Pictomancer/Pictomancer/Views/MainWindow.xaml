@@ -12,7 +12,7 @@
                  xmlns:views="clr-namespace:Pictomancer.Views"
                  xmlns:graphics="clr-namespace:Pictomancer.Graphics"
                  mc:Ignorable="d"
-                 Title="Pictomancer" Width="1280" Height="720" WindowStartupLocation="CenterScreen">
+                 Title="Pictomancer" Width="1280" Height="720" WindowStartupLocation="CenterScreen" WindowState="Maximized">
     <Window.Resources>
         <DataTemplate x:Key="StartViewModelDataTemplate">
             <views:StartView/>
@@ -54,15 +54,18 @@
                     <RibbonButton Label="New" LargeImageSource="../Images/NewMap.png" Command="{Binding NewMapCommand}"/>
                     <RibbonButton Label="Delete" LargeImageSource="../Images/DeleteMap.png" Command="{Binding DeleteMapCommand}"/>
                 </RibbonGroup>
+                <RibbonGroup Header="Tilesets">
+                    <RibbonButton Label="Add" LargeImageSource="../Images/AddTileset.png" Command="{Binding AddTilesetCommand}"/>
+                </RibbonGroup>
             </RibbonTab>
             <RibbonTab Header="Tab2">
-                <RibbonGroup x:Name="rbnGr3" Header="Other">
-                    <RibbonButton x:Name="btnRibbon5" Label="Play" LargeImageSource="../Images/Unknown.png"/>
-                    <RibbonButton x:Name="btnRibbon6" Label="List" LargeImageSource="../Images/Unknown.png"/>
+                <RibbonGroup Header="Other">
+                    <RibbonButton Label="Play" LargeImageSource="../Images/Unknown.png"/>
+                    <RibbonButton Label="List" LargeImageSource="../Images/Unknown.png"/>
                 </RibbonGroup>
-                <RibbonGroup x:Name="rbnGr4" Header="What a group">
-                    <RibbonButton x:Name="btnRibbon7" Label="Sleep" LargeImageSource="../Images/Unknown.png"/>
-                    <RibbonButton x:Name="btnRibbon8" Label="Add" LargeImageSource="../Images/Unknown.png"/>
+                <RibbonGroup Header="What a group">
+                    <RibbonButton Label="Sleep" LargeImageSource="../Images/Unknown.png"/>
+                    <RibbonButton Label="Add" LargeImageSource="../Images/Unknown.png"/>
                 </RibbonGroup>
             </RibbonTab>
         </Ribbon>
@@ -71,17 +74,29 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="256"/>
             </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="256"/>
-            </Grid.RowDefinitions>
-            <TabControl Grid.Column="0" ItemsSource="{Binding Pages}" SelectedItem="{Binding SelectedPage}" ContentTemplateSelector="{StaticResource TabItemTemplateSelector}">
-                <TabControl.ItemContainerStyle>
-                    <Style TargetType="TabItem">
-                        <Setter Property="Header" Value="{Binding Header}"/>
-                    </Style>
-                </TabControl.ItemContainerStyle>
-            </TabControl>
+            
+            <Grid Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="256"/>
+                </Grid.RowDefinitions>
+                <TabControl Grid.Row="0" ItemsSource="{Binding Pages}" SelectedItem="{Binding SelectedPage}" ContentTemplateSelector="{StaticResource TabItemTemplateSelector}">
+                    <TabControl.ItemContainerStyle>
+                        <Style TargetType="TabItem">
+                            <Setter Property="Header" Value="{Binding Header}"/>
+                        </Style>
+                    </TabControl.ItemContainerStyle>
+                </TabControl>
+                <TabControl Grid.Row="1">
+                    <TabItem Header="Tiles">
+                        <graphics:TileCanvas DataContext="{Binding TilesViewModel}"/>
+                    </TabItem>
+                    <TabItem Header="Console">
+                        <TextBox Text="{Binding ConsoleLog}" BorderThickness="0" Background="Black" Foreground="#4AF626" IsReadOnly="True" VerticalAlignment="Stretch" VerticalScrollBarVisibility="Visible" />
+                    </TabItem>
+                </TabControl>
+            </Grid>
+            
             <Grid Grid.Column="1" Grid.Row="0">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
@@ -116,15 +131,6 @@
                 <xctk:PropertyGrid Grid.Row="1">
 
                 </xctk:PropertyGrid>
-            </Grid>
-            <Grid Grid.ColumnSpan="2" Grid.Column="0" Grid.Row="1">
-                <TabControl>
-                    <TabItem Header="Tiles">
-                    </TabItem>
-                    <TabItem Header="Console">
-
-                    </TabItem>
-                </TabControl>
             </Grid>
         </Grid>
     </DockPanel>
