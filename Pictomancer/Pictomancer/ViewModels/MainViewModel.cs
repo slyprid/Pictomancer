@@ -6,7 +6,6 @@ using Microsoft.Win32;
 using Pictomancer.Mvvm;
 using Pictomancer.Views;
 using Relm.Maps;
-using Relm.Pipeline.Models;
 
 namespace Pictomancer.ViewModels
 {
@@ -103,7 +102,7 @@ namespace Pictomancer.ViewModels
 
             if (!dialog.ShowDialog((MainWindow)Owner).GetValueOrDefault()) return;
 
-            
+            Project.OpenProject(dialog.FileName);
         }
 
         public void SaveProject()

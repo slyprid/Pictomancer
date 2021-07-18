@@ -1,8 +1,6 @@
-﻿using System.Windows.Controls;
-
-namespace Pictomancer.Views
+﻿namespace Pictomancer.Views
 {
-    public partial class StartView : Grid
+    public partial class StartView
     {
         public StartView()
         {

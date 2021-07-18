@@ -11,8 +11,8 @@ namespace Pictomancer.Behaviors
 
         public object SelectedItem
         {
-            get { return (object)GetValue(SelectedItemProperty); }
-            set { SetValue(SelectedItemProperty, value); }
+            get => GetValue(SelectedItemProperty);
+            set => SetValue(SelectedItemProperty, value);
         }
 
         public static readonly DependencyProperty SelectedItemProperty =
@@ -21,10 +21,7 @@ namespace Pictomancer.Behaviors
         private static void OnSelectedItemChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
             var item = e.NewValue as TreeViewItem;
-            if (item != null)
-            {
-                item.SetValue(TreeViewItem.IsSelectedProperty, true);
-            }
+            item?.SetValue(TreeViewItem.IsSelectedProperty, true);
         }
 
         #endregion
@@ -33,22 +30,22 @@ namespace Pictomancer.Behaviors
         {
             base.OnAttached();
 
-            this.AssociatedObject.SelectedItemChanged += OnTreeViewSelectedItemChanged;
+            AssociatedObject.SelectedItemChanged += OnTreeViewSelectedItemChanged;
         }
 
         protected override void OnDetaching()
         {
             base.OnDetaching();
 
-            if (this.AssociatedObject != null)
+            if (AssociatedObject != null)
             {
-                this.AssociatedObject.SelectedItemChanged -= OnTreeViewSelectedItemChanged;
+                AssociatedObject.SelectedItemChanged -= OnTreeViewSelectedItemChanged;
             }
         }
 
         private void OnTreeViewSelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
-            this.SelectedItem = e.NewValue;
+            SelectedItem = e.NewValue;
         }
     }
 }

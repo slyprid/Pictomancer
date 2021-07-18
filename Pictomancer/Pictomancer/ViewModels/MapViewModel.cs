@@ -1,13 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Windows.Documents;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using MonoGame.Extended;
+using MonoGame.Extended.Tweening;
 using Pictomancer.Models;
+using Relm.Extensions;
 using Relm.Maps;
 using Relm.Tiles;
 
@@ -16,12 +15,19 @@ namespace Pictomancer.ViewModels
     public class MapViewModel
         : GameCanvasControlViewModel
     {
+        private Vector2 _mousePosition;
+        private float _mx;
+        private float _my;
+        private readonly ColorEx _cursorColor;
+        private readonly Tweener _tweener;
+
         public Guid Id { get; set; }
         public Map Map { get; }
         public Color Color { get; set; }
-
-        public List<Vector2> TilePoints = new List<Vector2>();
         public Texture2D TileTexture;
+        public int MouseX { get; set; }
+        public int MouseY { get; set; }
+
         
         public MapViewModel() { }
 
@@ -32,8 +38,11 @@ namespace Pictomancer.ViewModels
             Title = map.Name;
             Header = map.Name;
 
-            //Color = new Color(new Vector3((float)App.Rnd.NextDouble(), (float)App.Rnd.NextDouble(), (float)App.Rnd.NextDouble()));
             Color = new Color(30, 30, 30, 255);
+
+            _cursorColor = new ColorEx(Color.Yellow);
+            _tweener = new Tweener();
+            _tweener.TweenTo(_cursorColor, x => x.Value3, new Vector3(1f, 0, 0f), 0.25f, 0.025f).RepeatForever(0.2f).AutoReverse().Easing(EasingFunctions.Linear);
         }
 
         public override void LoadContent(ContentManager content)
@@ -58,12 +67,13 @@ namespace Pictomancer.ViewModels
 
         public override void Update(GameTime gameTime, InputModel input)
         {
-            if (input.PreviousMouseState.LeftButton == ButtonState.Released &&
-                input.CurrentMouseState.LeftButton == ButtonState.Pressed)
-            {
-                var pos = new Vector2(input.CurrentMouseState.X, input.CurrentMouseState.Y);
-                TilePoints.Add(pos);
-            }
+            _mousePosition = new Vector2(input.CurrentMouseState.X, input.CurrentMouseState.Y);
+            _mx = (int)(_mousePosition.X / Map.TileSize.X) * Map.TileSize.X;
+            _my = (int)(_mousePosition.Y / Map.TileSize.Y) * Map.TileSize.Y;
+            MouseX = (int) _mx;
+            MouseY = (int) _my;
+
+            _tweener.Update(gameTime.GetElapsedSeconds());
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
@@ -80,10 +90,12 @@ namespace Pictomancer.ViewModels
                 {
                     var w = Map.TileSize.X;
                     var h = Map.TileSize.Y;
-                    var loc = new Vector2(x * w, y * h);
-                    spriteBatch.DrawRectangle(new RectangleF(x * w, y * h, w, h), Color.Black, 1f, 0f);
+                    spriteBatch.DrawRectangle(new RectangleF(x * w, y * h, w, h), Color.Black);
                 }
             }
+
+            
+            spriteBatch.DrawRectangle(new RectangleF(_mx, _my, Map.TileSize.X, Map.TileSize.Y), _cursorColor.Color);
 
             spriteBatch.End();
         }

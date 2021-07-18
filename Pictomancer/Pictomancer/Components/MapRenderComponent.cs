@@ -11,11 +11,9 @@ namespace Pictomancer.Components
         : WpfDrawableGameComponent
     {
         private SpriteBatch _spriteBatch;
-        private SpriteFont _font;
-        private WpfKeyboard _keyboard;
-        private WpfMouse _mouse;
-
-        private InputModel _input;
+        private readonly WpfKeyboard _keyboard;
+        private readonly WpfMouse _mouse;
+        private readonly InputModel _input;
 
         public MapViewModel ViewModel { get; set; }
 
@@ -31,8 +29,6 @@ namespace Pictomancer.Components
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-            _font = Game.Content.Load<SpriteFont>("DefaultFont");
-
             base.LoadContent();
         }
 

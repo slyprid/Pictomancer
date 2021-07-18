@@ -1,9 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Pictomancer.Graphics;
 using Pictomancer.Models;
-using Pictomancer.Mvvm;
 
 namespace Pictomancer.ViewModels
 {

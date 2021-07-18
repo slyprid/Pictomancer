@@ -1,5 +1,4 @@
 ﻿using System.Windows;
-using Microsoft.Xna.Framework.Input;
 using Pictomancer.Mvvm;
 using Pictomancer.Views;
 

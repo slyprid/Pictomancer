@@ -1,10 +1,6 @@
-﻿using Pictomancer.Mvvm;
-using Pictomancer.ViewModels;
-
-namespace Pictomancer.Views
+﻿namespace Pictomancer.Views
 {
     public partial class NewProjectView 
-        : WindowView<NewProjectViewModel>
     {
         public NewProjectView()
         {

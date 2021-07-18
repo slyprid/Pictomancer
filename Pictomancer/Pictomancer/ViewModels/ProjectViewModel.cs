@@ -56,5 +56,10 @@ namespace Pictomancer.ViewModels
         {
             Maps.Remove(selectedMap);
         }
+
+        public void OpenProject(string filename)
+        {
+
+        }
     }
 }

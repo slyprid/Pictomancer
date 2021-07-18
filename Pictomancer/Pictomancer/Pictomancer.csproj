@@ -49,6 +49,9 @@
     <Reference Include="MonoGame.Extended.Graphics, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MonoGame.Extended.Graphics.3.8.0\lib\netstandard2.0\MonoGame.Extended.Graphics.dll</HintPath>
     </Reference>
+    <Reference Include="MonoGame.Extended.Tweening, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MonoGame.Extended.Tweening.3.8.0\lib\netstandard2.0\MonoGame.Extended.Tweening.dll</HintPath>
+    </Reference>
     <Reference Include="MonoGame.Framework, Version=3.8.0.1641, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MonoGame.Framework.WindowsDX.3.8.0.1641\lib\net452\MonoGame.Framework.dll</HintPath>
     </Reference>
