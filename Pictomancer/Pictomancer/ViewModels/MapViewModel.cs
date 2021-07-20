@@ -29,6 +29,7 @@ namespace Pictomancer.ViewModels
 
         public Tile PrimarySelectedTile { get; set; }
         public Tile SecondarySelectedTile { get; set; }
+        public ProjectViewModel Project { get; set; }
         
         public MapViewModel() { }
 
@@ -105,5 +106,25 @@ namespace Pictomancer.ViewModels
 
             spriteBatch.End();
         }
+
+        #region Actions
+
+        public void DrawPrimaryTile()
+        {
+            var tx = (int)(MouseX / Map.TileSize.X);
+            var ty = (int)( MouseY / Map.TileSize.Y);
+            PrimarySelectedTile.Position = new Vector2(tx * Map.TileSize.X, ty * Map.TileSize.Y);
+            ((TileLayer) Map.Layers[0])[tx, ty] = Tile.Clone(PrimarySelectedTile);
+        }
+
+        public void DrawSecondaryTile()
+        {
+            var tx = (int)(MouseX / Map.TileSize.X);
+            var ty = (int)(MouseY / Map.TileSize.Y);
+            SecondarySelectedTile.Position = new Vector2(tx * Map.TileSize.X, ty * Map.TileSize.Y);
+            ((TileLayer)Map.Layers[0])[tx, ty] = Tile.Clone(SecondarySelectedTile); ;
+        }
+
+        #endregion
     }
 }

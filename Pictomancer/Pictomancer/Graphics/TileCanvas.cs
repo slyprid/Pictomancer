@@ -34,6 +34,8 @@ namespace Pictomancer.Graphics
         public int TileWidth = 32;
         public int TileHeight = 32;
 
+        public TilesViewModel ViewModel => (TilesViewModel) DataContext;
+
         public TileCanvas()
         {
             _input = new InputModel();
@@ -90,10 +92,18 @@ namespace Pictomancer.Graphics
             if (_input.IsMousePressed(MouseButton.Left))
             {
                 primarySelected = $"{tx}-{ty}";
+                if (ViewModel.Project.MainViewModel.SelectedMap == null) return;
+                ViewModel.Project.MainViewModel.SelectedMap.PrimarySelectedTile.Texture = null;
+                ViewModel.Project.MainViewModel.SelectedMap.PrimarySelectedTile.TextureRegion = _tileset.GetRegion(primarySelected);
+                ViewModel.Project.MainViewModel.SelectedMap.PrimarySelectedTile.Size = new Vector2(TileWidth, TileHeight);
             }
             else if (_input.IsMousePressed(MouseButton.Right))
             {
                 secondarySelected = $"{tx}-{ty}";
+                if (ViewModel.Project.MainViewModel.SelectedMap == null) return;
+                ViewModel.Project.MainViewModel.SelectedMap.SecondarySelectedTile.Texture = null;
+                ViewModel.Project.MainViewModel.SelectedMap.SecondarySelectedTile.TextureRegion = _tileset.GetRegion(secondarySelected);
+                ViewModel.Project.MainViewModel.SelectedMap.SecondarySelectedTile.Size = new Vector2(TileWidth, TileHeight);
             }
         }
 

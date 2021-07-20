@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Windows.Input;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Framework.WpfInterop;
 using MonoGame.Framework.WpfInterop.Input;
@@ -41,6 +42,17 @@ namespace Pictomancer.Components
 
             ViewModel?.LoadContent(Game.Content);
             ViewModel?.Update(gameTime, _input);
+
+            if (_input.IsMousePressed(MouseButton.Left) || _input.IsMouseHeld(MouseButton.Left))
+            {
+                ViewModel?.DrawPrimaryTile();
+            }
+
+            if (_input.IsMousePressed(MouseButton.Right) || _input.IsMouseHeld(MouseButton.Right))
+            {
+                ViewModel?.DrawSecondaryTile();
+            }
+
             base.Update(gameTime);
         }
 

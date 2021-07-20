@@ -14,6 +14,8 @@ namespace Pictomancer.ViewModels
 
         public string Title => $"Project '{Name}'";
 
+        public MainViewModel MainViewModel { get; set; }
+        
         #region Dependency Properties
 
         public static readonly DependencyProperty MapsProperty = DependencyProperty.Register("Maps", typeof(ObservableCollection<Map>), typeof(ProjectViewModel), new PropertyMetadata(default(ObservableCollection<Map>)));

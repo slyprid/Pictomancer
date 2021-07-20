@@ -14,6 +14,19 @@ namespace Pictomancer.ViewModels
     {
         public bool IsDirty { get; set; }
 
+        public MapViewModel SelectedMap
+        {
+            get
+            {
+                if (SelectedPage == null) return null;
+                if (SelectedPage.GetType() == typeof(MapViewModel))
+                {
+                    return (MapViewModel)SelectedPage;
+                }
+
+                return null;
+            }
+        }
 
         #region Dependency Properties
 
@@ -69,7 +82,10 @@ namespace Pictomancer.ViewModels
 
         public MainViewModel()
         {
-            Project = new ProjectViewModel();
+            Project = new ProjectViewModel
+            {
+                MainViewModel = this
+            };
             TilesViewModel = new TilesViewModel
             {
                 Project = Project
@@ -170,6 +186,7 @@ namespace Pictomancer.ViewModels
             var vm = new MapViewModel(map);
             Pages.Add(vm);
             SelectedPage = vm;
+            vm.Project = Project;
 
             App.Log($"New map created [{map.Name}]");
         }
