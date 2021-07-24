@@ -88,7 +88,7 @@ namespace Pictomancer.ViewModels
         {
             if (spriteBatch == null) return;
             
-            spriteBatch.Begin();
+            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied);
 
             Map.Draw(gameTime, spriteBatch);
 
@@ -98,7 +98,7 @@ namespace Pictomancer.ViewModels
                 {
                     var w = Map.TileSize.X;
                     var h = Map.TileSize.Y;
-                    spriteBatch.DrawRectangle(new RectangleF(x * w, y * h, w, h), Color.Black);
+                    spriteBatch.DrawRectangle(new RectangleF(x * w, y * h, w, h), Color.Black.WithOpacity(0.25f));
                 }
             }
 

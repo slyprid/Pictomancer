@@ -124,7 +124,18 @@
                                 </HierarchicalDataTemplate>
                             </TreeViewItem.ItemTemplate>
                         </TreeViewItem>
-                        <TreeViewItem Header="Tilesets" IsExpanded="True"></TreeViewItem>
+                        <TreeViewItem Header="Tilesets" IsExpanded="True" ItemsSource="{Binding Project.Tilesets, Mode=TwoWay}">
+                            <TreeViewItem.ItemContainerStyle>
+                                <Style>
+                                    <Setter Property="TreeViewItem.IsExpanded" Value="True"/>
+                                </Style>
+                            </TreeViewItem.ItemContainerStyle>
+                            <TreeViewItem.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Name}"/>
+                                </DataTemplate>
+                            </TreeViewItem.ItemTemplate>
+                        </TreeViewItem>
                         <TreeViewItem Header="Scripts" IsExpanded="True"></TreeViewItem>
                     </TreeViewItem>
                 </TreeView>

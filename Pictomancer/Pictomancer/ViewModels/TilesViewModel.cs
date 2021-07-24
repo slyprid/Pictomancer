@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Pictomancer.Models;
+using Relm.Tiles;
 
 namespace Pictomancer.ViewModels
 {
@@ -9,6 +10,7 @@ namespace Pictomancer.ViewModels
         : GameCanvasControlViewModel
     {
         public ProjectViewModel Project { get; set; }
+        public Tileset Tileset { get; set; }
 
         public override void LoadContent(ContentManager content)
         {

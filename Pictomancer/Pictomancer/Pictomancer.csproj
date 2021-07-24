@@ -143,6 +143,7 @@
     <Compile Include="Mvvm\ViewModel.cs" />
     <Compile Include="Mvvm\WindowView.cs" />
     <Compile Include="Selectors\TabItemTemplateSelector.cs" />
+    <Compile Include="ViewModels\AddTilesetViewModel.cs" />
     <Compile Include="ViewModels\GameCanvasControlViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\MapViewModel.cs" />

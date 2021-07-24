@@ -9,6 +9,7 @@ namespace Pictomancer.ViewModels
         : PageViewModel
     {
         public bool ContentLoaded { get; set; }
+        public GraphicsDevice GraphicsDevice { get; set; }
 
         public abstract void LoadContent(ContentManager content);
         public abstract void Update(GameTime gameTime, InputModel input);

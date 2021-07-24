@@ -3,9 +3,12 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using Microsoft.Win32;
+using MonoGame.Extended.TextureAtlases;
 using Pictomancer.Mvvm;
 using Pictomancer.Views;
+using Relm.Helpers;
 using Relm.Maps;
+using Relm.Tiles;
 
 namespace Pictomancer.ViewModels
 {
@@ -128,7 +131,8 @@ namespace Pictomancer.ViewModels
             var results = view.ViewModel;
             Project = new ProjectViewModel
             {
-                Name = results.ProjectName
+                Name = results.ProjectName,
+                MainViewModel = this
             };
             App.Log($"New Project [{Project.Name}] created");
             NewMap();
@@ -139,8 +143,7 @@ namespace Pictomancer.ViewModels
         {
             var dialog = new OpenFileDialog
             {
-                Filter = "Pictomancer Files (*.pictomancer)|*.pictomancer|All files (*.*)|*.*",
-                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
+                Filter = "Pictomancer Files (*.pictomancer)|*.pictomancer|All files (*.*)|*.*"
             };
 
             if (!dialog.ShowDialog((MainWindow)Owner).GetValueOrDefault()) return;
@@ -168,8 +171,7 @@ namespace Pictomancer.ViewModels
             var dialog = new SaveFileDialog
             {
                 FileName = $"{Project.Name.Replace(" ", "_")}.pictomancer",
-                Filter = "Pictomancer Files (*.pictomancer)|*.pictomancer|All files (*.*)|*.*",
-                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
+                Filter = "Pictomancer Files (*.pictomancer)|*.pictomancer|All files (*.*)|*.*"
             };
 
             if (!dialog.ShowDialog((MainWindow)Owner).GetValueOrDefault()) return;
@@ -218,11 +220,27 @@ namespace Pictomancer.ViewModels
 
             if (!view.ShowDialog().GetValueOrDefault()) return;
 
-            // Add Tileset from results
-            
+            var results = view.ViewModel;
+
+            var texture = ContentHelper.LoadTextureFromFile(TilesViewModel.GraphicsDevice, results.Filename);
+            var tileWidth = int.Parse(results.TileWidth);
+            var tileHeight = int.Parse(results.TileHeight);
+            var regions = GraphicsHelper.CreateTextureAtlasRegions(texture.Width, texture.Height, tileWidth, tileHeight);
+
+            var tileset = new Tileset
+            {
+                Name = results.Name,
+                TileWidth = tileWidth,
+                TileHeight = tileHeight,
+                TextureAtlas = new TextureAtlas(results.Name, texture, regions)
+            };
+
+            Project.Tilesets.Add(tileset);
+            TilesViewModel.Tileset = tileset;
+
             SetIsDirty(true);
 
-            App.Log($"New Tileset Added");
+            App.Log($"New Tileset Added [{results.Name}] - Tile Width/Height: [{results.TileWidth}px/{results.TileHeight}px]");
         }
 
         #endregion

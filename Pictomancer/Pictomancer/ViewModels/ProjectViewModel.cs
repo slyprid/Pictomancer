@@ -25,12 +25,18 @@ namespace Pictomancer.ViewModels
             set => SetValue(MapsProperty, value);
         }
 
-        public static readonly DependencyProperty SelectedItemProperty = DependencyProperty.Register("SelectedItem", typeof(object), typeof(ProjectViewModel), new PropertyMetadata(default(object)));
-
+        public static readonly DependencyProperty SelectedItemProperty = DependencyProperty.Register("SelectedItem", typeof(object), typeof(ProjectViewModel), new PropertyMetadata(default(object), OnSelectedItemChanged));
         public object SelectedItem
         {
             get => GetValue(SelectedItemProperty);
             set => SetValue(SelectedItemProperty, value);
+        }
+
+        public static readonly DependencyProperty TilesetsProperty = DependencyProperty.Register("Tilesets", typeof(ObservableCollection<Tileset>), typeof(ProjectViewModel), new PropertyMetadata(default(ObservableCollection<Tileset>)));
+        public ObservableCollection<Tileset> Tilesets
+        {
+            get => (ObservableCollection<Tileset>) GetValue(TilesetsProperty);
+            set => SetValue(TilesetsProperty, value);
         }
 
         #endregion
@@ -39,6 +45,7 @@ namespace Pictomancer.ViewModels
         {
             Name = "Empty Project";
             Maps = new ObservableCollection<Map>();
+            Tilesets = new ObservableCollection<Tileset>();
         }
 
         public Map CreateNewMap()
@@ -62,6 +69,16 @@ namespace Pictomancer.ViewModels
         public void OpenProject(string filename)
         {
 
+        }
+
+        private static void OnSelectedItemChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var project = (ProjectViewModel) d;
+
+            if (e.NewValue.GetType() == typeof(Tileset))
+            {
+                project.MainViewModel.TilesViewModel.Tileset = (Tileset) e.NewValue;
+            }
         }
     }
 }
