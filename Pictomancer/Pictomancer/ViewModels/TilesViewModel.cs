@@ -11,6 +11,10 @@ namespace Pictomancer.ViewModels
     {
         public ProjectViewModel Project { get; set; }
         public Tileset Tileset { get; set; }
+        public string PrimarySelected { get; set; }
+        public string SecondarySelected { get; set; }
+        public Tile PrimarySelectedTile { get; set; }
+        public Tile SecondarySelectedTile { get; set; }
 
         public override void LoadContent(ContentManager content)
         {
