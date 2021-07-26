@@ -46,6 +46,7 @@ namespace Pictomancer.Graphics
 
             if (_mainViewModel != null)
             {
+                _mainViewModel.GraphicsDevice = GraphicsDevice;
                 var page = _mainViewModel.SelectedPage;
                 if (page.GetType() == typeof(MapViewModel))
                 {

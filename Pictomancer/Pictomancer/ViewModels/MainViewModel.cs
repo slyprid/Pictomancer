@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using Microsoft.Win32;
+using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.TextureAtlases;
 using Pictomancer.Mvvm;
 using Pictomancer.Views;
@@ -16,6 +17,7 @@ namespace Pictomancer.ViewModels
         : ViewModel
     {
         public bool IsDirty { get; set; }
+        public GraphicsDevice GraphicsDevice { get; set; }
 
         public MapViewModel SelectedMap
         {
@@ -222,7 +224,7 @@ namespace Pictomancer.ViewModels
 
             var results = view.ViewModel;
 
-            var texture = ContentHelper.LoadTextureFromFile(TilesViewModel.GraphicsDevice, results.Filename);
+            var texture = ContentHelper.LoadTextureFromFile(GraphicsDevice, results.Filename);
             var tileWidth = int.Parse(results.TileWidth);
             var tileHeight = int.Parse(results.TileHeight);
             var regions = GraphicsHelper.CreateTextureAtlasRegions(texture.Width, texture.Height, tileWidth, tileHeight);
