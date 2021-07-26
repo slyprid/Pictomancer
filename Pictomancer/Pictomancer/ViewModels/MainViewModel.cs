@@ -237,6 +237,11 @@ namespace Pictomancer.ViewModels
 
             Project.Tilesets.Add(tileset);
             TilesViewModel.Tileset = tileset;
+            TilesViewModel.PrimarySelected = "0-0";
+            TilesViewModel.SecondarySelected = "1-0";
+            TilesViewModel.PrimarySelectedTile = new Tile();
+            TilesViewModel.SecondarySelectedTile = new Tile();
+            
 
             SetIsDirty(true);
 

@@ -28,14 +28,23 @@ namespace Pictomancer.Graphics
         private float _my;
         private readonly ColorEx _cursorColor;
         private readonly Tweener _tweener;
-        private string primarySelected = "0-0";
-        private string secondarySelected = "1-0";
-
+        
         public int TileWidth = 32;
         public int TileHeight = 32;
 
         public TilesViewModel ViewModel => (TilesViewModel) DataContext;
         public Tileset Tileset => ViewModel.Tileset;
+        public string PrimarySelected
+        {
+            get => ViewModel.PrimarySelected;
+            set => ViewModel.PrimarySelected = value;
+        }
+
+        public string SecondarySelected
+        {
+            get => ViewModel.SecondarySelected;
+            set => ViewModel.SecondarySelected = value;
+        }
 
         public TileCanvas()
         {
@@ -56,18 +65,6 @@ namespace Pictomancer.Graphics
 
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             ViewModel.GraphicsDevice = GraphicsDevice;
-
-            //var regions = new Dictionary<string, Rectangle>();
-
-            //for (var y = 0; y < TileHeight; y++)
-            //{
-            //    for (var x = 0; x < TileWidth; x++)
-            //    {
-            //        regions.Add($"{x}-{y}", new Rectangle(x * TileWidth, y * TileHeight, TileWidth, TileHeight));
-            //    }
-            //}
-
-            //_tileset = new TextureAtlas("Tileset 1", Content.Load<Texture2D>("Tileset"), regions);
         }
 
         protected override void Update(GameTime gameTime)
@@ -89,27 +86,31 @@ namespace Pictomancer.Graphics
 
             _tweener.Update(gameTime.GetElapsedSeconds());
 
-            if(Tileset != null)
-            { 
-                var tx = (int)(_mx / TileWidth);
-                var ty = (int) (_my / TileHeight);
-                if (_input.IsMousePressed(MouseButton.Left))
-                {
-                    primarySelected = $"{tx}-{ty}";
-                    if (ViewModel.Project.MainViewModel.SelectedMap == null) return;
-                    ViewModel.Project.MainViewModel.SelectedMap.PrimarySelectedTile.Texture = null;
-                    ViewModel.Project.MainViewModel.SelectedMap.PrimarySelectedTile.TextureRegion = Tileset.TextureAtlas.GetRegion(primarySelected);
-                    ViewModel.Project.MainViewModel.SelectedMap.PrimarySelectedTile.Size = new Vector2(TileWidth, TileHeight);
-                }
-                else if (_input.IsMousePressed(MouseButton.Right))
-                {
-                    secondarySelected = $"{tx}-{ty}";
-                    if (ViewModel.Project.MainViewModel.SelectedMap == null) return;
-                    ViewModel.Project.MainViewModel.SelectedMap.SecondarySelectedTile.Texture = null;
-                    ViewModel.Project.MainViewModel.SelectedMap.SecondarySelectedTile.TextureRegion = Tileset.TextureAtlas.GetRegion(secondarySelected);
-                    ViewModel.Project.MainViewModel.SelectedMap.SecondarySelectedTile.Size = new Vector2(TileWidth, TileHeight);
-                }
+            if (Tileset == null) return;
+            
+            var tx = (int)(_mx / TileWidth);
+            var ty = (int) (_my / TileHeight);
+            if (_input.IsMousePressed(MouseButton.Left))
+            {
+                PrimarySelected = $"{tx}-{ty}";
+                
             }
+            else if (_input.IsMousePressed(MouseButton.Right))
+            {
+                SecondarySelected = $"{tx}-{ty}";
+            }
+
+            if (ViewModel.Project.MainViewModel.SelectedMap == null) return;
+            if (string.IsNullOrEmpty(PrimarySelected)) return;
+            if (string.IsNullOrEmpty(SecondarySelected)) return;
+
+            ViewModel.PrimarySelectedTile.Texture = null;
+            ViewModel.PrimarySelectedTile.TextureRegion = Tileset.TextureAtlas.GetRegion(PrimarySelected);
+            ViewModel.PrimarySelectedTile.Size = new Vector2(TileWidth, TileHeight);
+
+            ViewModel.SecondarySelectedTile.Texture = null;
+            ViewModel.SecondarySelectedTile.TextureRegion = Tileset.TextureAtlas.GetRegion(SecondarySelected);
+            ViewModel.SecondarySelectedTile.Size = new Vector2(TileWidth, TileHeight);
         }
 
         protected override void Draw(GameTime gameTime)
@@ -120,8 +121,8 @@ namespace Pictomancer.Graphics
 
             if (Tileset != null)
             {
-                _spriteBatch.Draw(Tileset.TextureAtlas.GetRegion(primarySelected), new Rectangle(8, 8, TileWidth * 2, TileHeight * 2), Color.White);
-                _spriteBatch.Draw(Tileset.TextureAtlas.GetRegion(secondarySelected), new Rectangle(72, 72, TileWidth * 2, TileHeight * 2), Color.White);
+                _spriteBatch.Draw(Tileset.TextureAtlas.GetRegion(PrimarySelected), new Rectangle(8, 8, TileWidth * 2, TileHeight * 2), Color.White);
+                _spriteBatch.Draw(Tileset.TextureAtlas.GetRegion(SecondarySelected), new Rectangle(72, 72, TileWidth * 2, TileHeight * 2), Color.White);
             }
 
             _spriteBatch.DrawRectangle(8, 8, TileWidth * 2, TileHeight * 2, Color.Black, 1f, 0f);
