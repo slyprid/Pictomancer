@@ -46,9 +46,6 @@ namespace Pictomancer.ViewModels
             _cursorColor = new ColorEx(Color.Yellow);
             _tweener = new Tweener();
             _tweener.TweenTo(_cursorColor, x => x.Value3, new Vector3(1f, 0, 0f), 0.25f, 0.025f).RepeatForever(0.2f).AutoReverse().Easing(EasingFunctions.Linear);
-
-            //PrimarySelectedTile = new Tile();
-            //SecondarySelectedTile = new Tile();
         }
 
         public override void LoadContent(ContentManager content)
@@ -56,22 +53,6 @@ namespace Pictomancer.ViewModels
             if (ContentLoaded) return;
 
             ContentLoaded = true;
-
-            //var grassTexture = content.Load<Texture2D>("Grass");
-            //var blockTexture = content.Load<Texture2D>("Block");
-            //PrimarySelectedTile.Texture = blockTexture;
-            //SecondarySelectedTile.Texture = grassTexture;
-
-            //foreach (var layer in Map.Layers.OfType<TileLayer>())
-            //{
-            //    for (var y = 0; y < layer.Height; y++)
-            //    {
-            //        for (var x = 0; x < layer.Width; x++)
-            //        {
-            //            layer[x, y].Texture = grassTexture;
-            //        }
-            //    }
-            //}
         }
 
         public override void Update(GameTime gameTime, InputModel input)
@@ -99,7 +80,7 @@ namespace Pictomancer.ViewModels
                 {
                     var w = Map.TileSize.X;
                     var h = Map.TileSize.Y;
-                    //spriteBatch.DrawRectangle(new RectangleF(x * w, y * h, w, h), Color.Black.WithOpacity(0.25f));
+                    spriteBatch.DrawRectangle(new RectangleF(x * w, y * h, w, h), Color.Black.WithOpacity(0.25f));
                 }
             }
 
@@ -116,7 +97,8 @@ namespace Pictomancer.ViewModels
             var tx = (int)(MouseX / Map.TileSize.X);
             var ty = (int)( MouseY / Map.TileSize.Y);
             PrimarySelectedTile.Position = new Vector2(tx * Map.TileSize.X, ty * Map.TileSize.Y);
-            ((TileLayer) Map.Layers[0])[tx, ty] = Tile.Clone(PrimarySelectedTile);
+            
+            ((TileLayer) Project.SelectedLayer)[tx, ty] = Tile.Clone(PrimarySelectedTile);
         }
 
         public void DrawSecondaryTile()
@@ -125,7 +107,7 @@ namespace Pictomancer.ViewModels
             var tx = (int)(MouseX / Map.TileSize.X);
             var ty = (int)(MouseY / Map.TileSize.Y);
             SecondarySelectedTile.Position = new Vector2(tx * Map.TileSize.X, ty * Map.TileSize.Y);
-            ((TileLayer)Map.Layers[0])[tx, ty] = Tile.Clone(SecondarySelectedTile); ;
+            ((TileLayer)Project.SelectedLayer)[tx, ty] = Tile.Clone(SecondarySelectedTile); ;
         }
 
         #endregion

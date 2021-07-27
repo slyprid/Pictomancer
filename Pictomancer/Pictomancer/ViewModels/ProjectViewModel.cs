@@ -39,6 +39,13 @@ namespace Pictomancer.ViewModels
             set => SetValue(TilesetsProperty, value);
         }
 
+        public static readonly DependencyProperty SelectedLayerProperty = DependencyProperty.Register("SelectedLayer", typeof(MapLayer), typeof(ProjectViewModel), new PropertyMetadata(default(MapLayer)));
+        public MapLayer SelectedLayer
+        {
+            get => (MapLayer) GetValue(SelectedLayerProperty);
+            set => SetValue(SelectedLayerProperty, value);
+        }
+
         #endregion
 
         public ProjectViewModel()
@@ -56,7 +63,13 @@ namespace Pictomancer.ViewModels
             {
                 Name = name
             };
-            map.AddLayer<TileLayer>().Name = "Tile Layer 1";
+            map.AddLayer<TileLayer>().Name = "Ground";
+            map.AddLayer<TileLayer>().Name = "Detail";
+            map.AddLayer<TileLayer>().Name = "Overlay";
+
+            SelectedItem = map.Layers[0];
+            SelectedLayer = map.Layers[0];
+
             Maps.Add(map);
             return map;
         }
@@ -78,6 +91,10 @@ namespace Pictomancer.ViewModels
             if (e.NewValue.GetType() == typeof(Tileset))
             {
                 project.MainViewModel.TilesViewModel.Tileset = (Tileset) e.NewValue;
+            }
+            else if (e.NewValue.GetType().BaseType == typeof(MapLayer))
+            {
+                project.SelectedLayer = (MapLayer) e.NewValue;
             }
         }
     }
