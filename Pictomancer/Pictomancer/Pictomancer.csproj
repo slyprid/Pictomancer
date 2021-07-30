@@ -49,6 +49,9 @@
     <Reference Include="MonoGame.Extended.Graphics, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MonoGame.Extended.Graphics.3.8.0\lib\netstandard2.0\MonoGame.Extended.Graphics.dll</HintPath>
     </Reference>
+    <Reference Include="MonoGame.Extended.Input, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MonoGame.Extended.Input.3.8.0\lib\netstandard2.0\MonoGame.Extended.Input.dll</HintPath>
+    </Reference>
     <Reference Include="MonoGame.Extended.Tweening, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MonoGame.Extended.Tweening.3.8.0\lib\netstandard2.0\MonoGame.Extended.Tweening.dll</HintPath>
     </Reference>
@@ -131,7 +134,18 @@
     <Compile Include="Behaviors\BindableSelectedItemBehavior.cs" />
     <Compile Include="Components\MapRenderComponent.cs" />
     <Compile Include="Components\TextComponent.cs" />
+    <Compile Include="Input\WpfInputListener.cs" />
+    <Compile Include="Components\WpfInputListenerComponent.cs" />
+    <Compile Include="Constants\ControlNames.cs" />
     <Compile Include="Graphics\TileCanvas.cs" />
+    <Compile Include="Input\WpfInput.cs" />
+    <Compile Include="Input\WpfInputListenerSettings.cs" />
+    <Compile Include="Input\WpfKeyboardEventArgs.cs" />
+    <Compile Include="Input\WpfKeyboardListener.cs" />
+    <Compile Include="Input\WpfKeyboardListenerSettings.cs" />
+    <Compile Include="Input\WpfMouseEventArgs.cs" />
+    <Compile Include="Input\WpfMouseListener.cs" />
+    <Compile Include="Input\WpfMouseListenerSettings.cs" />
     <Compile Include="Models\InputModel.cs" />
     <Compile Include="Mvvm\Annotations.cs" />
     <Compile Include="Mvvm\Command.cs" />
@@ -255,6 +269,21 @@
     <Resource Include="SharpDX.xml" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Content\Icons\draw-brush.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Content\Icons\draw-eraser.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Content\Icons\fill-color.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Content\Controls\Button.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Content\Icons\draw-swap.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <Content Include="CppNet.dll" />
     <Resource Include="Images\AddTileset.png" />
     <Content Include="libmojoshader_64.dll" />

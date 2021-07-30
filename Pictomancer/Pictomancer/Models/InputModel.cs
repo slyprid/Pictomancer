@@ -1,5 +1,7 @@
-﻿using System.Windows.Input;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using MonoGame.Extended.Input;
+using MonoGame.Framework.WpfInterop.Input;
 
 namespace Pictomancer.Models
 {
@@ -7,9 +9,38 @@ namespace Pictomancer.Models
     {
         public MouseState CurrentMouseState { get; set; }
         public MouseState PreviousMouseState { get; set; }
+        public MouseStateExtended MouseStateExtended { get; set; }
 
         public KeyboardState CurrentKeyboardState { get; set; }
         public KeyboardState PreviousKeyboardState { get; set; }
+        public KeyboardStateExtended KeyboardStateExtended { get; set; }
+
+        public Vector2 MousePosition => new Vector2(CurrentMouseState.X, CurrentMouseState.Y);
+        
+        public void Update(WpfKeyboard keyboard)
+        {
+            PreviousKeyboardState = CurrentKeyboardState;
+            CurrentKeyboardState = keyboard.GetState();
+            KeyboardStateExtended = new KeyboardStateExtended(CurrentKeyboardState, PreviousKeyboardState);
+        }
+
+        public void Update(WpfMouse mouse)
+        {
+            PreviousMouseState = CurrentMouseState;
+            CurrentMouseState = mouse.GetState();
+            MouseStateExtended = new MouseStateExtended(CurrentMouseState, PreviousMouseState);
+        }
+
+        public void Update(WpfKeyboard keyboard, WpfMouse mouse)
+        {
+            PreviousKeyboardState = CurrentKeyboardState;
+            CurrentKeyboardState = keyboard.GetState();
+            KeyboardStateExtended = new KeyboardStateExtended(CurrentKeyboardState, PreviousKeyboardState);
+
+            PreviousMouseState = CurrentMouseState;
+            CurrentMouseState = mouse.GetState();
+            MouseStateExtended = new MouseStateExtended(CurrentMouseState, PreviousMouseState);
+        }
 
         public bool IsMousePressed(MouseButton button)
         {
