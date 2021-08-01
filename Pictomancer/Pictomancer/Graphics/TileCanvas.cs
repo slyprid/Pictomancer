@@ -73,31 +73,31 @@ namespace Pictomancer.Graphics
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             ViewModel.GraphicsDevice = GraphicsDevice;
 
-            var buttonConfig = new ButtonConfig
-            {
-                Texture = ContentHelper.LoadTextureFromFile(GraphicsDevice, "Content/Controls/Button.png"),
-                SourceSize = new Vector2(92, 47)
-            };
+            //var buttonConfig = new ButtonConfig
+            //{
+            //    Texture = ContentHelper.LoadTextureFromFile(GraphicsDevice, "Content/Controls/Button.png"),
+            //    SourceSize = new Vector2(92, 47)
+            //};
             
-            _controlManager.Add<Button>(ControlNames.TileCanvas.PaintButton, buttonConfig)
-                .SetPosition(8, 128 + 16)
-                .SetScale(0.25f, 0.5f)
-                .HasIcon(ContentHelper.LoadTextureFromFile(GraphicsDevice, "Content/Icons/draw-brush.png"), 19, 19, 2, 2);
+            //_controlManager.Add<Button>(ControlNames.TileCanvas.PaintButton, buttonConfig)
+            //    .SetPosition(8, 128 + 16)
+            //    .SetScale(0.25f, 0.5f)
+            //    .HasIcon(ContentHelper.LoadTextureFromFile(GraphicsDevice, "Content/Icons/draw-brush.png"), 19, 19, 2, 2);
 
-            _controlManager.Add<Button>(ControlNames.TileCanvas.FillButton, buttonConfig)
-                .SetPosition(8 + 23 + 4, 128 + 16)
-                .SetScale(0.25f, 0.5f)
-                .HasIcon(ContentHelper.LoadTextureFromFile(GraphicsDevice, "Content/Icons/fill-color.png"), 19, 19, 2, 2);
+            //_controlManager.Add<Button>(ControlNames.TileCanvas.FillButton, buttonConfig)
+            //    .SetPosition(8 + 23 + 4, 128 + 16)
+            //    .SetScale(0.25f, 0.5f)
+            //    .HasIcon(ContentHelper.LoadTextureFromFile(GraphicsDevice, "Content/Icons/fill-color.png"), 19, 19, 2, 2);
 
-            _controlManager.Add<Button>(ControlNames.TileCanvas.EraseButton, buttonConfig)
-                .SetPosition(8 + 46 + 8, 128 + 16)
-                .SetScale(0.25f, 0.5f)
-                .HasIcon(ContentHelper.LoadTextureFromFile(GraphicsDevice, "Content/Icons/draw-eraser.png"), 19, 19, 2, 2);
+            //_controlManager.Add<Button>(ControlNames.TileCanvas.EraseButton, buttonConfig)
+            //    .SetPosition(8 + 46 + 8, 128 + 16)
+            //    .SetScale(0.25f, 0.5f)
+            //    .HasIcon(ContentHelper.LoadTextureFromFile(GraphicsDevice, "Content/Icons/draw-eraser.png"), 19, 19, 2, 2);
 
-            _controlManager.Add<Button>(ControlNames.TileCanvas.SwapButton, buttonConfig)
-                .SetPosition(60, 60)
-                .SetScale(0.25f, 0.5f)
-                .HasIcon(ContentHelper.LoadTextureFromFile(GraphicsDevice, "Content/Icons/draw-swap.png"), 19, 19, 2, 2);
+            //_controlManager.Add<Button>(ControlNames.TileCanvas.SwapButton, buttonConfig)
+            //    .SetPosition(60, 60)
+            //    .SetScale(0.25f, 0.5f)
+            //    .HasIcon(ContentHelper.LoadTextureFromFile(GraphicsDevice, "Content/Icons/draw-swap.png"), 19, 19, 2, 2);
         }
 
         protected override void Update(GameTime gameTime)

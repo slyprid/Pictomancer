@@ -57,6 +57,11 @@
                 <RibbonGroup Header="Tilesets">
                     <RibbonButton Label="Add" LargeImageSource="../Images/AddTileset.png" Command="{Binding AddTilesetCommand}"/>
                 </RibbonGroup>
+                <RibbonGroup Header="Tools">
+                    <RibbonToggleButton Label="Paint" LargeImageSource="../Images/draw-brush.png" IsChecked="{Binding PaintToolSelected, Mode=TwoWay}"/>
+                    <RibbonToggleButton Label="Fill" SmallImageSource="../Images/format-fill-color.png" IsChecked="{Binding FillToolSelected, Mode=TwoWay}"/>
+                    <RibbonToggleButton Label="Erase" SmallImageSource="../Images/draw-eraser.png" IsChecked="{Binding EraseToolSelected, Mode=TwoWay}"/>
+                </RibbonGroup>
             </RibbonTab>
             <RibbonTab Header="Tab2">
                 <RibbonGroup Header="Other">

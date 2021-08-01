@@ -286,6 +286,9 @@
     </None>
     <Content Include="CppNet.dll" />
     <Resource Include="Images\AddTileset.png" />
+    <Resource Include="Images\draw-brush.png" />
+    <Resource Include="Images\draw-eraser.png" />
+    <Resource Include="Images\format-fill-color.png" />
     <Content Include="libmojoshader_64.dll" />
     <Content Include="mgfxc.dll" />
     <Content Include="mgfxc.exe" />

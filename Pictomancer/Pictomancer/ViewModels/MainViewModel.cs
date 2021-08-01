@@ -70,6 +70,27 @@ namespace Pictomancer.ViewModels
             set => SetValue(ConsoleLogProperty, value);
         }
 
+        public static readonly DependencyProperty PaintToolSelectedProperty = DependencyProperty.Register("PaintToolSelected", typeof(bool), typeof(MainViewModel), new PropertyMetadata(default(bool), OnPaintToolSelected));
+        public bool PaintToolSelected
+        {
+            get => (bool) GetValue(PaintToolSelectedProperty);
+            set => SetValue(PaintToolSelectedProperty, value);
+        }
+
+        public static readonly DependencyProperty EraseToolSelectedProperty = DependencyProperty.Register("EraseToolSelected", typeof(bool), typeof(MainViewModel), new PropertyMetadata(default(bool), OnEraseToolSelected));
+        public bool EraseToolSelected
+        {
+            get => (bool) GetValue(EraseToolSelectedProperty);
+            set => SetValue(EraseToolSelectedProperty, value);
+        }
+
+        public static readonly DependencyProperty FillToolSelectedProperty = DependencyProperty.Register("FillToolSelected", typeof(bool), typeof(MainViewModel), new PropertyMetadata(default(bool), OnFillToolSelected));
+        public bool FillToolSelected
+        {
+            get => (bool) GetValue(FillToolSelectedProperty);
+            set => SetValue(FillToolSelectedProperty, value);
+        }
+      
         #endregion
 
         #region Command Properties
@@ -101,6 +122,8 @@ namespace Pictomancer.ViewModels
             };
 
             App.MainViewModel = this;
+
+            PaintToolSelected = true;
 
             InitializeCommands();
 
@@ -248,6 +271,40 @@ namespace Pictomancer.ViewModels
             SetIsDirty(true);
 
             App.Log($"New Tileset Added [{results.Name}] - Tile Width/Height: [{results.TileWidth}px/{results.TileHeight}px]");
+        }
+
+        #endregion
+
+        #region Dependency Callbacks
+
+        private static void OnPaintToolSelected(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if ((bool)e.NewValue)
+            {
+                var vm = (MainViewModel)d;
+                vm.EraseToolSelected = false;
+                vm.FillToolSelected = false;
+            }
+        }
+
+        private static void OnEraseToolSelected(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if ((bool)e.NewValue)
+            {
+                var vm = (MainViewModel)d;
+                vm.PaintToolSelected = false;
+                vm.FillToolSelected = false;
+            }
+        }
+
+        private static void OnFillToolSelected(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if ((bool)e.NewValue)
+            {
+                var vm = (MainViewModel)d;
+                vm.EraseToolSelected = false;
+                vm.PaintToolSelected = false;
+            }
         }
 
         #endregion

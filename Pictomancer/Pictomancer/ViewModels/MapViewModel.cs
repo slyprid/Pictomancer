@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Documents;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -20,6 +22,7 @@ namespace Pictomancer.ViewModels
         private float _my;
         private readonly ColorEx _cursorColor;
         private readonly Tweener _tweener;
+        private List<Vector2> _filledPositions = new List<Vector2>();
 
         public Guid Id { get; set; }
         public Map Map { get; }
@@ -95,10 +98,13 @@ namespace Pictomancer.ViewModels
         {
             if (PrimarySelectedTile == null) return;
             var tx = (int)(MouseX / Map.TileSize.X);
-            var ty = (int)( MouseY / Map.TileSize.Y);
-            PrimarySelectedTile.Position = new Vector2(tx * Map.TileSize.X, ty * Map.TileSize.Y);
+            var ty = (int)(MouseY / Map.TileSize.Y);
             
-            ((TileLayer) Project.SelectedLayer)[tx, ty] = Tile.Clone(PrimarySelectedTile);
+            var mainViewModel = Project.MainViewModel;
+
+            if (mainViewModel.PaintToolSelected) PaintTile(tx, ty, PrimarySelectedTile);
+            if (mainViewModel.EraseToolSelected) EraseTile(tx, ty);
+            if (mainViewModel.FillToolSelected) FillTile(tx, ty, PrimarySelectedTile);
         }
 
         public void DrawSecondaryTile()
@@ -107,7 +113,82 @@ namespace Pictomancer.ViewModels
             var tx = (int)(MouseX / Map.TileSize.X);
             var ty = (int)(MouseY / Map.TileSize.Y);
             SecondarySelectedTile.Position = new Vector2(tx * Map.TileSize.X, ty * Map.TileSize.Y);
-            ((TileLayer)Project.SelectedLayer)[tx, ty] = Tile.Clone(SecondarySelectedTile); ;
+
+            var mainViewModel = Project.MainViewModel;
+
+            if (mainViewModel.PaintToolSelected) PaintTile(tx, ty, SecondarySelectedTile);
+            if (mainViewModel.EraseToolSelected) EraseTile(tx, ty);
+            if (mainViewModel.FillToolSelected) FillTile(tx, ty, SecondarySelectedTile);
+        }
+
+        private void PaintTile(int tx, int ty, Tile tile)
+        {
+            tile.Position = new Vector2(tx * Map.TileSize.X, ty * Map.TileSize.Y);
+            var selectedLayer = ((TileLayer)Project.SelectedLayer);
+            if (tx >= selectedLayer.Width) return;
+            if (ty >= selectedLayer.Height) return;
+            selectedLayer[tx, ty] = Tile.Clone(tile);
+        }
+
+        private void EraseTile(int tx, int ty)
+        {
+            var selectedLayer = ((TileLayer)Project.SelectedLayer);
+            if (tx >= selectedLayer.Width) return;
+            if (ty >= selectedLayer.Height) return;
+            selectedLayer[tx, ty] = null;
+        }
+
+        private void FillTile(int tx, int ty, Tile tile)
+        {
+            tile.Position = new Vector2(tx * Map.TileSize.X, ty * Map.TileSize.Y);
+            var selectedLayer = ((TileLayer)Project.SelectedLayer);
+            var w = selectedLayer.Width;
+            var h = selectedLayer.Height;
+            if (tx >= selectedLayer.Width) return;
+            if (ty >= selectedLayer.Height) return;
+            
+            var fillTile = Tile.Clone(tile);
+            var originalTile = selectedLayer[tx, ty];
+            _filledPositions.Clear();
+            FloodFill(tx, ty, w, h, selectedLayer, fillTile, originalTile);
+        }
+
+        private void FloodFill(int x, int y, int w, int h, TileLayer layer, Tile fillTile, Tile oldTile)
+        {
+            if (layer == null) return;
+            if (fillTile == null) return;
+
+            try
+            {
+                if (x < 0 || x >= w) return;
+                if (y < 0 || y >= h) return;
+                var newPosition = new Vector2(x, y);
+                if (_filledPositions.Contains(newPosition)) return;
+                _filledPositions.Add(newPosition);
+                var oldTileIndex = oldTile?.TextureRegion?.Name;
+                var currentTileIndex = layer[x, y]?.TextureRegion?.Name;
+
+                if (currentTileIndex == oldTileIndex)
+                {
+                    fillTile.Position = new Vector2(x * Map.TileSize.X, y * Map.TileSize.Y);
+                    layer[x, y] = new Tile
+                    {
+                        Position = fillTile.Position,
+                        Size = fillTile.Size,
+                        Texture = fillTile.Texture,
+                        TextureRegion = fillTile.TextureRegion
+                    };
+                    ;
+                    FloodFill(x + 1, y, w, h, layer, fillTile, oldTile);
+                    FloodFill(x - 1, y, w, h, layer, fillTile, oldTile);
+                    FloodFill(x, y + 1, w, h, layer, fillTile, oldTile);
+                    FloodFill(x, y - 1, w, h, layer, fillTile, oldTile);
+                }
+            }
+            catch (StackOverflowException)
+            {
+                return;
+            }
         }
 
         #endregion
