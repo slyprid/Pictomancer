@@ -10,14 +10,21 @@
                  FocusManager.FocusedElement="{Binding ElementName=txtProjectName}">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="64"/>
+            <RowDefinition Height="32"/>
+            <RowDefinition Height="32"/>
             <RowDefinition Height="32"/>
         </Grid.RowDefinitions>
-        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,16,0,16">
-            <Label VerticalAlignment="Center">Project Name: </Label>
+        <StackPanel Grid.Row="0" Orientation="Horizontal">
+            <Label VerticalAlignment="Center">Project Name:</Label>
             <TextBox Name="txtProjectName" Width="368" VerticalContentAlignment="Center" Height="24" Text="{Binding ProjectName}"/>
         </StackPanel>
-        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
+        <StackPanel Grid.Row="1" Orientation="Horizontal">
+            <Label VerticalAlignment="Center">Map Width:</Label>
+            <TextBox VerticalContentAlignment="Center" Height="24" Width="64" Text="{Binding MapWidth}"/>
+            <Label VerticalAlignment="Center">Map Height:</Label>
+            <TextBox VerticalContentAlignment="Center" Height="24" Width="64" Text="{Binding MapHeight}"/>
+        </StackPanel>
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
             <Button Width="128" Margin="0,0,16,0" Command="{Binding CreateProjectCommand}" IsDefault="True">Create</Button>
             <Button Width="128" Margin="0,0,16,0" Command="{Binding CancelCommand}" IsCancel="True">Cancel</Button>
         </StackPanel>

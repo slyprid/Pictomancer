@@ -18,7 +18,9 @@
             <views:StartView/>
         </DataTemplate>
         <DataTemplate x:Key="MapViewModelDataTemplate">
-            <graphics:GameCanvas/>
+            <ScrollViewer>
+                <graphics:GameCanvas Panel.ZIndex="-999999"/>
+            </ScrollViewer>
         </DataTemplate>
         <selectors:TabItemTemplateSelector x:Key="TabItemTemplateSelector"
                                            MapViewTemplate="{StaticResource MapViewModelDataTemplate}"
@@ -74,6 +76,10 @@
                 </RibbonGroup>
             </RibbonTab>
         </Ribbon>
+        <StatusBar DockPanel.Dock="Bottom" Padding="8">
+            <TextBlock Name="txtMapLocation" Text="Map: [0,0]" Margin="8,0,8,0"/>
+            <TextBlock Name="txtMouseLocation" Text="Mouse: [0,0]"/>
+        </StatusBar>
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>

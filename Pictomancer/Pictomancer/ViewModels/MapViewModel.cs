@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
 using MonoGame.Extended.Tweening;
+using Pictomancer.Graphics;
 using Pictomancer.Models;
 using Relm.Extensions;
 using Relm.Maps;
@@ -66,12 +67,23 @@ namespace Pictomancer.ViewModels
             MouseX = (int) _mx;
             MouseY = (int) _my;
 
+            App.SetMapStatus($"Map: [{_mx}, {_my}]");
+            App.SetMouseStatus($"Mouse: [{_mousePosition.X}, {_mousePosition.Y}]");
+
             _tweener.Update(gameTime.GetElapsedSeconds());
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             if (spriteBatch == null) return;
+
+            App.SaveState(Id.ToString(), new GraphicsDeviceState
+            {
+                BlendState = spriteBatch.GraphicsDevice.BlendState,
+                DepthStencilState = spriteBatch.GraphicsDevice.DepthStencilState,
+                RasterizerState = spriteBatch.GraphicsDevice.RasterizerState,
+                SamplerState = spriteBatch.GraphicsDevice.SamplerStates[0]
+            });
             
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied);
 
@@ -90,6 +102,8 @@ namespace Pictomancer.ViewModels
             spriteBatch.DrawRectangle(new RectangleF(_mx, _my, Map.TileSize.X, Map.TileSize.Y), _cursorColor.Color);
 
             spriteBatch.End();
+
+            App.RestoreState(Id.ToString(), spriteBatch.GraphicsDevice);
         }
 
         #region Actions

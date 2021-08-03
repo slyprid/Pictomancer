@@ -6,6 +6,7 @@ namespace Pictomancer.Views
     {
         public MainWindow()
         {
+            App.MainWindowInstance = this;
             InitializeComponent();
         }
 

@@ -134,6 +134,7 @@
     <Compile Include="Behaviors\BindableSelectedItemBehavior.cs" />
     <Compile Include="Components\MapRenderComponent.cs" />
     <Compile Include="Components\TextComponent.cs" />
+    <Compile Include="Graphics\GraphicsDeviceState.cs" />
     <Compile Include="Input\WpfInputListener.cs" />
     <Compile Include="Components\WpfInputListenerComponent.cs" />
     <Compile Include="Constants\ControlNames.cs" />

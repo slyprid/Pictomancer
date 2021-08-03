@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows;
+using Microsoft.Xna.Framework;
 using Pictomancer.Mvvm;
 using Relm.Maps;
 using Relm.Tiles;
@@ -46,6 +47,20 @@ namespace Pictomancer.ViewModels
             set => SetValue(SelectedLayerProperty, value);
         }
 
+        public static readonly DependencyProperty MapWidthProperty = DependencyProperty.Register("MapWidth", typeof(int), typeof(ProjectViewModel), new PropertyMetadata(default(int)));
+        public int MapWidth
+        {
+            get => (int) GetValue(MapWidthProperty);
+            set => SetValue(MapWidthProperty, value);
+        }
+
+        public static readonly DependencyProperty MapHeightProperty = DependencyProperty.Register("MapHeight", typeof(int), typeof(ProjectViewModel), new PropertyMetadata(default(int)));
+        public int MapHeight
+        {
+            get => (int) GetValue(MapHeightProperty);
+            set => SetValue(MapHeightProperty, value);
+        }
+
         #endregion
 
         public ProjectViewModel()
@@ -61,7 +76,8 @@ namespace Pictomancer.ViewModels
             var name = $"Map {index}";
             var map = new Map
             {
-                Name = name
+                Name = name,
+                Size = new Vector2(MapWidth, MapHeight)
             };
             map.AddLayer<TileLayer>().Name = "Ground";
             map.AddLayer<TileLayer>().Name = "Detail";

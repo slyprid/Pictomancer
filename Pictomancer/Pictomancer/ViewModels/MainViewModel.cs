@@ -157,6 +157,8 @@ namespace Pictomancer.ViewModels
             Project = new ProjectViewModel
             {
                 Name = results.ProjectName,
+                MapWidth = results.MapWidth,
+                MapHeight = results.MapHeight,
                 MainViewModel = this
             };
             App.Log($"New Project [{Project.Name}] created");

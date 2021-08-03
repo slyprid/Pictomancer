@@ -9,6 +9,24 @@ namespace Pictomancer.ViewModels
     {
         public string ProjectName { get; set; }
 
+        #region Dependency Properties
+
+        public static readonly DependencyProperty MapWidthProperty = DependencyProperty.Register("MapWidth", typeof(int), typeof(NewProjectViewModel), new PropertyMetadata(default(int)));
+        public int MapWidth
+        {
+            get => (int) GetValue(MapWidthProperty);
+            set => SetValue(MapWidthProperty, value);
+        }
+
+        public static readonly DependencyProperty MapHeightProperty = DependencyProperty.Register("MapHeight", typeof(int), typeof(NewProjectViewModel), new PropertyMetadata(default(int)));
+        public int MapHeight
+        {
+            get => (int) GetValue(MapHeightProperty);
+            set => SetValue(MapHeightProperty, value);
+        }
+
+        #endregion
+
         #region Command Properties
 
         public Command CreateProjectCommand { get; set; }
@@ -20,6 +38,8 @@ namespace Pictomancer.ViewModels
 
         public NewProjectViewModel()
         {
+            MapWidth = 25;
+            MapHeight = 25;
             InitializeCommands();
         }
 

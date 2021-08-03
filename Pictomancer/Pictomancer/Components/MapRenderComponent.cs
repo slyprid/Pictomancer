@@ -22,7 +22,7 @@ namespace Pictomancer.Components
             : base(game)
         {
             _keyboard = new WpfKeyboard(game);
-            _mouse = new WpfMouse(game);
+            _mouse = new WpfMouse(game) {CaptureMouseWithin = false};
 
             _input = new InputModel();
         }

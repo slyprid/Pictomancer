@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
 using MonoGame.Extended.Input;
@@ -36,6 +37,7 @@ namespace Pictomancer.Graphics
         
         public int TileWidth = 32;
         public int TileHeight = 32;
+        public Guid Id { get; set; }
 
         public TilesViewModel ViewModel => (TilesViewModel) DataContext;
         public Tileset Tileset => ViewModel.Tileset;
@@ -54,6 +56,7 @@ namespace Pictomancer.Graphics
 
         public TileCanvas()
         {
+            Id = Guid.NewGuid();
             _input = new InputModel();
             _cursorColor = new ColorEx(Color.Yellow);
             _tweener = new Tweener();
@@ -66,7 +69,7 @@ namespace Pictomancer.Graphics
             _graphicsDeviceManager = new WpfGraphicsDeviceService(this);
 
             _keyboard = new WpfKeyboard(this);
-            _mouse = new WpfMouse(this);
+            _mouse = new WpfMouse(this) {CaptureMouseWithin = false};
 
             base.Initialize();
 
@@ -163,6 +166,14 @@ namespace Pictomancer.Graphics
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.White);
+            
+            App.SaveState(Id.ToString(), new GraphicsDeviceState
+            {
+                BlendState = GraphicsDevice.BlendState,
+                DepthStencilState = GraphicsDevice.DepthStencilState,
+                RasterizerState = GraphicsDevice.RasterizerState,
+                SamplerState = GraphicsDevice.SamplerStates[0]
+            });
 
             _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied);
 
@@ -207,6 +218,8 @@ namespace Pictomancer.Graphics
             _spriteBatch.DrawRectangle(new RectangleF(_mx + xp, _my + yp, TileWidth, TileHeight), _cursorColor.Color);
 
             _spriteBatch.End();
+
+            App.RestoreState(Id.ToString(), GraphicsDevice);
         }
     }
 }
